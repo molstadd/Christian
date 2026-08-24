@@ -296,7 +296,7 @@ storyLayoutStyle.textContent = `
 `;
 document.head.appendChild(storyLayoutStyle);
 
-// Cinematic motion: still restrained, but now clearly perceptible.
+// Cinematic motion and dawn progression.
 const motionStyle = document.createElement('style');
 motionStyle.textContent = `
   @keyframes heroAwaken {
@@ -304,33 +304,8 @@ motionStyle.textContent = `
     100% { opacity: 1; filter: brightness(1); }
   }
 
-  @keyframes starDrift {
-    0% { background-position: center 0; }
-    50% { background-position: calc(50% + 18px) 28px; }
-    100% { background-position: center 0; }
-  }
-
   .sky-1 {
     animation: heroAwaken 2.6s ease-out both;
-  }
-
-  .sky-1,
-  .sky-2,
-  .sky-3 {
-    animation-name: starDrift;
-    animation-duration: 34s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-delay: 2.6s;
-  }
-
-  .sky-1 {
-    animation-name: heroAwaken, starDrift;
-    animation-duration: 2.6s, 34s;
-    animation-timing-function: ease-out, ease-in-out;
-    animation-iteration-count: 1, infinite;
-    animation-delay: 0s, 2.6s;
-    animation-fill-mode: both, none;
   }
 
   .hero-copy {
@@ -346,33 +321,54 @@ motionStyle.textContent = `
     transform: translateY(0) !important;
   }
 
-  .sky-4::before {
-    transition: filter .14s linear, opacity .14s linear;
-    filter: brightness(var(--dawn-brightness, .78)) saturate(var(--dawn-saturation, .86));
+  /* A real darkening layer over the dawn image. JS fades this away as the visitor scrolls. */
+  .sky-4::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    z-index: 1 !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    background: rgba(3,8,18,var(--dawn-shade,.32)) !important;
+    transition: background .10s linear !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .sky-1, .sky-2, .sky-3 { animation: none !important; }
+    .sky-1 { animation: none !important; }
     .reveal, .hero-copy { transition: none !important; transform: none !important; }
-    .sky-4::before { transition: none !important; }
+    .sky-4::after { display: none !important; }
   }
 `;
 document.head.appendChild(motionStyle);
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (!reduceMotion) {
+  const starStages = [...document.querySelectorAll('.sky-1, .sky-2, .sky-3')];
+  const startTime = performance.now();
+
+  // Use inline !important background-position so the drift is not blocked by the
+  // existing !important background-position declarations in styles.css.
+  const animateStars = (now) => {
+    const t = (now - startTime) / 1000;
+    const x = Math.sin(t / 5.2) * 24;
+    const y = Math.cos(t / 7.1) * 18;
+    starStages.forEach(stage => {
+      stage.style.setProperty('background-position', `calc(50% + ${x.toFixed(1)}px) ${y.toFixed(1)}px`, 'important');
+    });
+    requestAnimationFrame(animateStars);
+  };
+  requestAnimationFrame(animateStars);
+
   let ticking = false;
   const updateDawn = () => {
     const sky4 = document.querySelector('.sky-4');
     if (!sky4) return;
     const rect = sky4.getBoundingClientRect();
     const viewport = window.innerHeight || document.documentElement.clientHeight;
-    const progress = Math.max(0, Math.min(1, (viewport - rect.top) / (viewport + rect.height * 0.42)));
+    const progress = Math.max(0, Math.min(1, (viewport - rect.top) / Math.max(viewport * 1.15, 1)));
     const eased = progress * progress * (3 - 2 * progress);
-    const brightness = 0.74 + eased * 0.42;
-    const saturation = 0.84 + eased * 0.24;
-    sky4.style.setProperty('--dawn-brightness', brightness.toFixed(3));
-    sky4.style.setProperty('--dawn-saturation', saturation.toFixed(3));
+    const shade = 0.34 - eased * 0.31;
+    sky4.style.setProperty('--dawn-shade', shade.toFixed(3));
     ticking = false;
   };
 
