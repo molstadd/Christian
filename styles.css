@@ -128,11 +128,11 @@ main{position:relative;overflow:hidden;background:#07172f}
 .sky-1 .pillar-card,.sky-2 .pillar-card,.sky-2 .word-card,.sky-2 .rise-step,.sky-3 .temple-copy,.sky-3 .checklist,.sky-3 .transform-flow span{background:rgba(6,14,25,.88)!important;border-color:rgba(255,255,255,.18)!important;color:#fffef9!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .sky-1 .pillar-card *,.sky-2 .pillar-card *,.sky-2 .word-card *,.sky-2 .rise-step *,.sky-3 .temple-copy *,.sky-3 .checklist *,.sky-3 .transform-flow span{color:#fffef9!important}
 
-/* Keep the lower sunrise portion visually connected to the night journey. */
-.sky-4 .love .narrow,.sky-4 .restoration .narrow,.sky-4 .about .narrow{background:rgba(6,14,25,.90)!important;color:#fffef9!important;border:1px solid rgba(233,181,103,.28)!important;border-radius:24px!important;padding:30px 34px!important;box-shadow:0 22px 60px rgba(0,0,0,.26)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+/* Lower sunrise cards: translucent enough to reveal the journey behind them while preserving readability. */
+.sky-4 .love .narrow,.sky-4 .restoration .narrow,.sky-4 .about .narrow{background:rgba(6,14,25,.62)!important;color:#fffef9!important;border:1px solid rgba(233,181,103,.30)!important;border-radius:24px!important;padding:30px 34px!important;box-shadow:0 22px 60px rgba(0,0,0,.22)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .sky-4 .love .narrow *,.sky-4 .restoration .narrow *,.sky-4 .about .narrow *{color:#fffef9!important}
 .sky-4 .love .eyebrow,.sky-4 .restoration .eyebrow,.sky-4 .about .eyebrow{color:#efc77f!important}
-.sky-4 .study-card{background:rgba(6,14,25,.90)!important;color:#fffef9!important;border:1px solid rgba(233,181,103,.25)!important;box-shadow:0 18px 50px rgba(0,0,0,.24)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.sky-4 .study-card{background:rgba(6,14,25,.66)!important;color:#fffef9!important;border:1px solid rgba(233,181,103,.27)!important;box-shadow:0 18px 50px rgba(0,0,0,.20)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .sky-4 .study-card *{color:#fffef9!important}
 .sky-4 .study-card span{color:#efc77f!important}
 
