@@ -252,12 +252,10 @@ cleanupStyle.textContent = `
 `;
 document.head.appendChild(cleanupStyle);
 
-// Remove numeric labels such as 01, 02, 03 throughout the page.
 document.querySelectorAll('.story-step > span, .rise-step > span, .dwelling-path span, .study-card > span').forEach(el => {
   if (/^\d{2}$/.test(el.textContent.trim())) el.remove();
 });
 
-// Rebuild the Genesis-to-Revelation story as a responsive grid so it never needs a scrollbar.
 const storyLayoutStyle = document.createElement('style');
 storyLayoutStyle.textContent = `
   .sky-2 .story-track {
@@ -297,3 +295,75 @@ storyLayoutStyle.textContent = `
   }
 `;
 document.head.appendChild(storyLayoutStyle);
+
+// Subtle cinematic motion: quiet enough to support the page rather than distract from it.
+const motionStyle = document.createElement('style');
+motionStyle.textContent = `
+  @keyframes heroAwaken {
+    0% { opacity: .18; filter: brightness(.42); }
+    100% { opacity: 1; filter: brightness(1); }
+  }
+
+  @keyframes starDrift {
+    0% { background-position: center 0; }
+    50% { background-position: calc(50% + 6px) 12px; }
+    100% { background-position: center 0; }
+  }
+
+  .sky-1 {
+    animation: heroAwaken 2.6s ease-out both, starDrift 22s ease-in-out 2.6s infinite;
+  }
+
+  .hero-copy {
+    transition: opacity .9s ease, transform .9s ease;
+  }
+
+  .reveal {
+    transform: translateY(14px) !important;
+    transition: opacity .7s ease, transform .7s ease !important;
+  }
+
+  .reveal.visible {
+    transform: translateY(0) !important;
+  }
+
+  .sky-4::before {
+    transition: filter .18s linear, opacity .18s linear;
+    filter: brightness(var(--dawn-brightness, .9)) saturate(var(--dawn-saturation, .92));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sky-1 { animation: none !important; }
+    .reveal, .hero-copy { transition: none !important; transform: none !important; }
+    .sky-4::before { transition: none !important; }
+  }
+`;
+document.head.appendChild(motionStyle);
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion) {
+  let ticking = false;
+  const updateDawn = () => {
+    const sky4 = document.querySelector('.sky-4');
+    if (!sky4) return;
+    const rect = sky4.getBoundingClientRect();
+    const viewport = window.innerHeight || document.documentElement.clientHeight;
+    const progress = Math.max(0, Math.min(1, (viewport - rect.top) / (viewport + rect.height * 0.5)));
+    const brightness = 0.86 + progress * 0.22;
+    const saturation = 0.90 + progress * 0.14;
+    sky4.style.setProperty('--dawn-brightness', brightness.toFixed(3));
+    sky4.style.setProperty('--dawn-saturation', saturation.toFixed(3));
+    ticking = false;
+  };
+
+  const requestDawnUpdate = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateDawn);
+      ticking = true;
+    }
+  };
+
+  updateDawn();
+  window.addEventListener('scroll', requestDawnUpdate, { passive: true });
+  window.addEventListener('resize', requestDawnUpdate);
+}
