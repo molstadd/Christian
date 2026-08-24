@@ -92,3 +92,52 @@ if (pillars && bigStory && !document.querySelector('.upper-followers-visual')) {
   section.appendChild(wrap);
   bigStory.parentNode.insertBefore(section, bigStory);
 }
+
+// Let the lower-page imagery breathe: remove the large dark text cards and
+// use restrained text shadow for readability instead.
+const openLowerTextStyle = document.createElement('style');
+openLowerTextStyle.textContent = `
+  .sky-3 .temple-copy,
+  .sky-3 .checklist,
+  .sky-4 .love .narrow,
+  .sky-4 .restoration .narrow,
+  .sky-4 .about .narrow {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .sky-3 .temple-copy,
+  .sky-3 .checklist,
+  .sky-4 .love .narrow,
+  .sky-4 .restoration .narrow,
+  .sky-4 .about .narrow {
+    text-shadow: 0 2px 8px rgba(0,0,0,.88), 0 1px 2px rgba(0,0,0,.95);
+  }
+
+  .sky-4 .love .narrow,
+  .sky-4 .restoration .narrow,
+  .sky-4 .about .narrow {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .sky-3 .checklist p {
+    background: transparent !important;
+    border-bottom-color: rgba(255,255,255,.18) !important;
+  }
+
+  .sky-4 .final-list span {
+    background: rgba(6,14,25,.24) !important;
+    border-color: rgba(255,255,255,.28) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  }
+
+  .sky-4 .btn-primary {
+    text-shadow: none !important;
+  }
+`;
+document.head.appendChild(openLowerTextStyle);
