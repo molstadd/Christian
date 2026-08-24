@@ -55,14 +55,9 @@ function styleStoryVisual(el, image, position, ratio, size = 'cover') {
   el.style.boxShadow = '0 26px 70px rgba(0,0,0,.30)';
 }
 
-// Restore the original first supporting image from the approved composite.
 styleStoryVisual(document.querySelector('.follow-visual'), composite, '20.7% 6.2%', '620 / 375', '294.84% auto');
-
-// Empty tomb remains cropped from the approved composite.
 styleStoryVisual(document.querySelector('.tomb-visual'), composite, '20.7% 88%', '620 / 365', '294.84% auto');
 
-// Add the new Jesus-leading-followers image higher on the page, between
-// "Believe. Be Transformed. Live." and "Life Was Always the Destination."
 const pillars = document.querySelector('.pillars');
 const bigStory = document.querySelector('.big-story');
 if (pillars && bigStory && !document.querySelector('.upper-followers-visual')) {
@@ -93,8 +88,6 @@ if (pillars && bigStory && !document.querySelector('.upper-followers-visual')) {
   bigStory.parentNode.insertBefore(section, bigStory);
 }
 
-// Let the lower-page imagery breathe: remove the large dark text cards and
-// use restrained text shadow for readability instead.
 const openLowerTextStyle = document.createElement('style');
 openLowerTextStyle.textContent = `
   .sky-3 .temple-copy,
@@ -142,10 +135,8 @@ openLowerTextStyle.textContent = `
 `;
 document.head.appendChild(openLowerTextStyle);
 
-// Full de-card pass: keep hierarchy and dividers, remove decorative boxes.
 const deCardStyle = document.createElement('style');
 deCardStyle.textContent = `
-  /* Believe / Be Transformed / Live */
   .sky-2 .pillar-card {
     background: transparent !important;
     border: 0 !important;
@@ -164,7 +155,6 @@ deCardStyle.textContent = `
     text-shadow: 0 2px 8px rgba(0,0,0,.82), 0 1px 2px rgba(0,0,0,.9);
   }
 
-  /* Genesis-to-Revelation story: labels, not boxes */
   .sky-2 .story-step,
   .sky-2 .story-step.emphasis {
     background: transparent !important;
@@ -178,7 +168,6 @@ deCardStyle.textContent = `
     border-bottom-color: rgba(233,181,103,.7) !important;
   }
 
-  /* Count the Cost */
   .sky-2 .word-card {
     background: transparent !important;
     border: 0 !important;
@@ -192,7 +181,6 @@ deCardStyle.textContent = `
     border-bottom: 1px solid rgba(255,255,255,.16) !important;
   }
 
-  /* Die / Buried / Raised */
   .sky-2 .rise-step {
     background: transparent !important;
     border: 0 !important;
@@ -205,7 +193,6 @@ deCardStyle.textContent = `
     border-left: 1px solid rgba(233,181,103,.24) !important;
   }
 
-  /* Draw Near progression: simplify pills */
   .sky-3 .transform-flow span {
     background: transparent !important;
     border: 0 !important;
@@ -214,14 +201,12 @@ deCardStyle.textContent = `
     text-shadow: 0 2px 7px rgba(0,0,0,.85);
   }
 
-  /* Living Temple copy already open; keep only the functional path strip */
   .sky-3 .temple-copy {
     padding: 0 !important;
   }
 
-  /* Start Here studies remain clickable, but become light outlined links */
   .sky-4 .study-card {
-    background: rgba(6,14,25,.18) !important;
+    background: rgba(6,14,25,.40) !important;
     border: 1px solid rgba(233,181,103,.28) !important;
     border-radius: 12px !important;
     box-shadow: none !important;
@@ -229,7 +214,7 @@ deCardStyle.textContent = `
     padding: 22px 24px !important;
   }
   .sky-4 .study-card:hover {
-    background: rgba(6,14,25,.34) !important;
+    background: rgba(6,14,25,.54) !important;
     border-color: rgba(233,181,103,.58) !important;
     transform: translateY(-2px);
   }
@@ -243,3 +228,29 @@ deCardStyle.textContent = `
   }
 `;
 document.head.appendChild(deCardStyle);
+
+const cleanupStyle = document.createElement('style');
+cleanupStyle.textContent = `
+  /* Built on Christ: remove the last remaining box around the progression. */
+  .sky-3 .dwelling-path {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 16px 0 !important;
+  }
+
+  /* Decorative arrows/dashes are unnecessary in the open layout. */
+  .story-arrow,
+  .transform-flow > b,
+  .dwelling-path > i {
+    display: none !important;
+  }
+
+  /* Give the unboxed Living Temple progression a little breathing room. */
+  .sky-3 .dwelling-path {
+    justify-content: space-between !important;
+    gap: 18px !important;
+  }
+`;
+document.head.appendChild(cleanupStyle);
