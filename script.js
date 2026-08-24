@@ -55,8 +55,40 @@ function styleStoryVisual(el, image, position, ratio, size = 'cover') {
   el.style.boxShadow = '0 26px 70px rgba(0,0,0,.30)';
 }
 
-// Follow visual: use a dedicated asset named exactly as below.
-styleStoryVisual(document.querySelector('.follow-visual'), 'url("assets/jesus-leading-followers.jpg")', 'center', '3 / 2', 'cover');
+// Restore the original first supporting image from the approved composite.
+styleStoryVisual(document.querySelector('.follow-visual'), composite, '20.7% 6.2%', '620 / 375', '294.84% auto');
 
-// Empty tomb visual remains cropped from the existing approved two-picture composite.
+// Empty tomb remains cropped from the approved composite.
 styleStoryVisual(document.querySelector('.tomb-visual'), composite, '20.7% 88%', '620 / 365', '294.84% auto');
+
+// Add the new Jesus-leading-followers image higher on the page, between
+// "Believe. Be Transformed. Live." and "Life Was Always the Destination."
+const pillars = document.querySelector('.pillars');
+const bigStory = document.querySelector('.big-story');
+if (pillars && bigStory && !document.querySelector('.upper-followers-visual')) {
+  const section = document.createElement('section');
+  section.className = 'upper-followers-visual';
+  section.setAttribute('aria-label', 'Jesus leading His followers along a path toward dawn');
+  section.style.position = 'relative';
+  section.style.zIndex = '2';
+  section.style.padding = '18px 0 72px';
+  section.style.background = 'transparent';
+
+  const wrap = document.createElement('div');
+  wrap.style.width = 'min(980px, calc(100% - 40px))';
+  wrap.style.margin = '0 auto';
+
+  const img = document.createElement('img');
+  img.src = 'assets/jesus-leading-followers.png';
+  img.alt = 'Jesus leading a varied group of followers along a rocky path beneath a starry sky toward the first light of dawn';
+  img.style.display = 'block';
+  img.style.width = '100%';
+  img.style.height = 'auto';
+  img.style.borderRadius = '24px';
+  img.style.boxShadow = '0 26px 70px rgba(0,0,0,.32)';
+  img.style.border = '1px solid rgba(255,255,255,.14)';
+
+  wrap.appendChild(img);
+  section.appendChild(wrap);
+  bigStory.parentNode.insertBefore(section, bigStory);
+}
