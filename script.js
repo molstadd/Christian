@@ -34,8 +34,8 @@ if (templePhoto) {
   templePhoto.style.setProperty('background-repeat', 'no-repeat', 'important');
 }
 
-// Use the approved two-scene composite already in the repo and crop each half in place.
-const composite = 'url("ChatGPT Image Aug 24, 2026, 11_28_20 AM.png")';
+// Use the approved two-scene composite from the assets folder and crop each half in place.
+const composite = 'url("assets/ChatGPT Image Aug 24, 2026, 11_28_20 AM.png")';
 
 const follow = document.querySelector('.story-image-follow');
 if (follow) {
