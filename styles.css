@@ -127,7 +127,14 @@ main{position:relative;overflow:hidden;background:#07172f}
 .sky-1 .eyebrow,.sky-2 .eyebrow,.sky-3 .eyebrow{color:#efc77f!important}
 .sky-1 .pillar-card,.sky-2 .pillar-card,.sky-2 .word-card,.sky-2 .rise-step,.sky-3 .temple-copy,.sky-3 .checklist,.sky-3 .transform-flow span{background:rgba(6,14,25,.88)!important;border-color:rgba(255,255,255,.18)!important;color:#fffef9!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .sky-1 .pillar-card *,.sky-2 .pillar-card *,.sky-2 .word-card *,.sky-2 .rise-step *,.sky-3 .temple-copy *,.sky-3 .checklist *,.sky-3 .transform-flow span{color:#fffef9!important}
-.sky-4 .love .narrow,.sky-4 .restoration .narrow{background:rgba(255,248,232,.88)!important;color:#17221b!important;border-radius:24px!important;padding:30px 34px!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.sky-4 .love .narrow *,.sky-4 .restoration .narrow *{color:#17221b!important}.sky-4 .study-card,.sky-4 .about .narrow{background:rgba(255,251,240,.92)!important;color:#17221b!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+
+/* Keep the lower sunrise portion visually connected to the night journey. */
+.sky-4 .love .narrow,.sky-4 .restoration .narrow,.sky-4 .about .narrow{background:rgba(6,14,25,.90)!important;color:#fffef9!important;border:1px solid rgba(233,181,103,.28)!important;border-radius:24px!important;padding:30px 34px!important;box-shadow:0 22px 60px rgba(0,0,0,.26)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.sky-4 .love .narrow *,.sky-4 .restoration .narrow *,.sky-4 .about .narrow *{color:#fffef9!important}
+.sky-4 .love .eyebrow,.sky-4 .restoration .eyebrow,.sky-4 .about .eyebrow{color:#efc77f!important}
+.sky-4 .study-card{background:rgba(6,14,25,.90)!important;color:#fffef9!important;border:1px solid rgba(233,181,103,.25)!important;box-shadow:0 18px 50px rgba(0,0,0,.24)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.sky-4 .study-card *{color:#fffef9!important}
+.sky-4 .study-card span{color:#efc77f!important}
 
 .story-image{margin:44px auto 42px;width:min(820px,92%);border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 26px 70px rgba(0,0,0,.30);background:#06101b}.story-image img{display:block;width:100%;height:auto}.story-image-follow{max-width:860px}.story-image-tomb{max-width:820px}.sky-2 .story-image{box-shadow:0 24px 70px rgba(0,0,0,.36),0 0 0 1px rgba(255,255,255,.08)}.discipleship .section-heading{margin-bottom:34px}.new-life .section-heading.left{margin-bottom:28px}.story-image-follow+.discipleship-grid{margin-top:12px}.story-image-tomb+.rise-grid{margin-top:16px}
 
