@@ -231,7 +231,6 @@ document.head.appendChild(deCardStyle);
 
 const cleanupStyle = document.createElement('style');
 cleanupStyle.textContent = `
-  /* Built on Christ: remove the last remaining box around the progression. */
   .sky-3 .dwelling-path {
     background: transparent !important;
     border: 0 !important;
@@ -240,17 +239,61 @@ cleanupStyle.textContent = `
     padding: 16px 0 !important;
   }
 
-  /* Decorative arrows/dashes are unnecessary in the open layout. */
   .story-arrow,
   .transform-flow > b,
   .dwelling-path > i {
     display: none !important;
   }
 
-  /* Give the unboxed Living Temple progression a little breathing room. */
   .sky-3 .dwelling-path {
     justify-content: space-between !important;
     gap: 18px !important;
   }
 `;
 document.head.appendChild(cleanupStyle);
+
+// Remove numeric labels such as 01, 02, 03 throughout the page.
+document.querySelectorAll('.story-step > span, .rise-step > span, .dwelling-path span, .study-card > span').forEach(el => {
+  if (/^\d{2}$/.test(el.textContent.trim())) el.remove();
+});
+
+// Rebuild the Genesis-to-Revelation story as a responsive grid so it never needs a scrollbar.
+const storyLayoutStyle = document.createElement('style');
+storyLayoutStyle.textContent = `
+  .sky-2 .story-track {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 22px 28px !important;
+    overflow: visible !important;
+    padding: 12px 0 8px !important;
+  }
+
+  .sky-2 .story-step {
+    min-width: 0 !important;
+    width: auto !important;
+    padding: 18px 0 22px !important;
+  }
+
+  .sky-2 .story-step strong {
+    font-size: clamp(24px, 2.2vw, 34px) !important;
+  }
+
+  .sky-2 .story-step small {
+    display: block !important;
+    max-width: none !important;
+  }
+
+  @media (max-width: 900px) {
+    .sky-2 .story-track {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .sky-2 .story-track {
+      grid-template-columns: 1fr !important;
+      gap: 8px !important;
+    }
+  }
+`;
+document.head.appendChild(storyLayoutStyle);
