@@ -35,11 +35,13 @@ if (templePhoto) {
   templePhoto.style.setProperty('background-repeat', 'no-repeat', 'important');
 }
 
-// The approved two-picture composite currently exists in the repository root.
-const composite = 'url("ChatGPT Image Aug 24, 2026, 11_28_20 AM.png")';
+// Approved two-picture composite in the assets folder.
+const composite = 'url("assets/ChatGPT Image Aug 24, 2026, 11_28_20 AM.png")';
 
 function styleStoryVisual(el, position, ratio) {
   if (!el) return;
+  const img = el.querySelector('img');
+  if (img) img.style.display = 'none';
   el.style.display = 'block';
   el.style.width = 'min(860px, 92%)';
   el.style.aspectRatio = ratio;
