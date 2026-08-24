@@ -296,22 +296,41 @@ storyLayoutStyle.textContent = `
 `;
 document.head.appendChild(storyLayoutStyle);
 
-// Subtle cinematic motion: quiet enough to support the page rather than distract from it.
+// Cinematic motion: still restrained, but now clearly perceptible.
 const motionStyle = document.createElement('style');
 motionStyle.textContent = `
   @keyframes heroAwaken {
-    0% { opacity: .18; filter: brightness(.42); }
+    0% { opacity: .16; filter: brightness(.38); }
     100% { opacity: 1; filter: brightness(1); }
   }
 
   @keyframes starDrift {
     0% { background-position: center 0; }
-    50% { background-position: calc(50% + 6px) 12px; }
+    50% { background-position: calc(50% + 18px) 28px; }
     100% { background-position: center 0; }
   }
 
   .sky-1 {
-    animation: heroAwaken 2.6s ease-out both, starDrift 22s ease-in-out 2.6s infinite;
+    animation: heroAwaken 2.6s ease-out both;
+  }
+
+  .sky-1,
+  .sky-2,
+  .sky-3 {
+    animation-name: starDrift;
+    animation-duration: 34s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-delay: 2.6s;
+  }
+
+  .sky-1 {
+    animation-name: heroAwaken, starDrift;
+    animation-duration: 2.6s, 34s;
+    animation-timing-function: ease-out, ease-in-out;
+    animation-iteration-count: 1, infinite;
+    animation-delay: 0s, 2.6s;
+    animation-fill-mode: both, none;
   }
 
   .hero-copy {
@@ -328,12 +347,12 @@ motionStyle.textContent = `
   }
 
   .sky-4::before {
-    transition: filter .18s linear, opacity .18s linear;
-    filter: brightness(var(--dawn-brightness, .9)) saturate(var(--dawn-saturation, .92));
+    transition: filter .14s linear, opacity .14s linear;
+    filter: brightness(var(--dawn-brightness, .78)) saturate(var(--dawn-saturation, .86));
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .sky-1 { animation: none !important; }
+    .sky-1, .sky-2, .sky-3 { animation: none !important; }
     .reveal, .hero-copy { transition: none !important; transform: none !important; }
     .sky-4::before { transition: none !important; }
   }
@@ -348,9 +367,10 @@ if (!reduceMotion) {
     if (!sky4) return;
     const rect = sky4.getBoundingClientRect();
     const viewport = window.innerHeight || document.documentElement.clientHeight;
-    const progress = Math.max(0, Math.min(1, (viewport - rect.top) / (viewport + rect.height * 0.5)));
-    const brightness = 0.86 + progress * 0.22;
-    const saturation = 0.90 + progress * 0.14;
+    const progress = Math.max(0, Math.min(1, (viewport - rect.top) / (viewport + rect.height * 0.42)));
+    const eased = progress * progress * (3 - 2 * progress);
+    const brightness = 0.74 + eased * 0.42;
+    const saturation = 0.84 + eased * 0.24;
     sky4.style.setProperty('--dawn-brightness', brightness.toFixed(3));
     sky4.style.setProperty('--dawn-saturation', saturation.toFixed(3));
     ticking = false;
