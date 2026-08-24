@@ -141,3 +141,105 @@ openLowerTextStyle.textContent = `
   }
 `;
 document.head.appendChild(openLowerTextStyle);
+
+// Full de-card pass: keep hierarchy and dividers, remove decorative boxes.
+const deCardStyle = document.createElement('style');
+deCardStyle.textContent = `
+  /* Believe / Be Transformed / Live */
+  .sky-2 .pillar-card {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+    padding: 12px 30px !important;
+  }
+  .sky-2 .pillar-card + .pillar-card {
+    border-left: 1px solid rgba(233,181,103,.34) !important;
+  }
+  .sky-2 .pillar-card h3,
+  .sky-2 .pillar-card h4,
+  .sky-2 .pillar-card p,
+  .sky-2 .pillar-card a {
+    text-shadow: 0 2px 8px rgba(0,0,0,.82), 0 1px 2px rgba(0,0,0,.9);
+  }
+
+  /* Genesis-to-Revelation story: labels, not boxes */
+  .sky-2 .story-step,
+  .sky-2 .story-step.emphasis {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 18px 12px !important;
+    border-bottom: 1px solid rgba(255,255,255,.16) !important;
+  }
+  .sky-2 .story-step.emphasis {
+    border-bottom-color: rgba(233,181,103,.7) !important;
+  }
+
+  /* Count the Cost */
+  .sky-2 .word-card {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+    padding: 20px 22px !important;
+    border-top: 1px solid rgba(255,255,255,.16) !important;
+  }
+  .sky-2 .word-card:last-child {
+    border-bottom: 1px solid rgba(255,255,255,.16) !important;
+  }
+
+  /* Die / Buried / Raised */
+  .sky-2 .rise-step {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 24px 26px !important;
+    border-top: 1px solid rgba(255,255,255,.18) !important;
+  }
+  .sky-2 .rise-step + .rise-step {
+    border-left: 1px solid rgba(233,181,103,.24) !important;
+  }
+
+  /* Draw Near progression: simplify pills */
+  .sky-3 .transform-flow span {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 8px 10px !important;
+    text-shadow: 0 2px 7px rgba(0,0,0,.85);
+  }
+
+  /* Living Temple copy already open; keep only the functional path strip */
+  .sky-3 .temple-copy {
+    padding: 0 !important;
+  }
+
+  /* Start Here studies remain clickable, but become light outlined links */
+  .sky-4 .study-card {
+    background: rgba(6,14,25,.18) !important;
+    border: 1px solid rgba(233,181,103,.28) !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+    padding: 22px 24px !important;
+  }
+  .sky-4 .study-card:hover {
+    background: rgba(6,14,25,.34) !important;
+    border-color: rgba(233,181,103,.58) !important;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 980px) {
+    .sky-2 .pillar-card + .pillar-card,
+    .sky-2 .rise-step + .rise-step {
+      border-left: 0 !important;
+      border-top: 1px solid rgba(255,255,255,.18) !important;
+    }
+  }
+`;
+document.head.appendChild(deCardStyle);
