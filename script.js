@@ -321,7 +321,14 @@ motionStyle.textContent = `
     transform: translateY(0) !important;
   }
 
-  /* A real darkening layer over the dawn image. JS fades this away as the visitor scrolls. */
+  /* The sunrise itself becomes brighter and warmer as the visitor enters the final stage. */
+  .sky-4::before {
+    filter: brightness(var(--dawn-brightness,.62)) saturate(var(--dawn-saturation,.78)) !important;
+    opacity: var(--dawn-opacity,.62) !important;
+    transition: filter .08s linear, opacity .08s linear !important;
+  }
+
+  /* A subtle ambient glow lets the star field begin to feel like dawn before the mountains fill the screen. */
   .sky-4::after {
     content: "" !important;
     display: block !important;
@@ -329,25 +336,28 @@ motionStyle.textContent = `
     z-index: 1 !important;
     inset: 0 !important;
     pointer-events: none !important;
-    background: rgba(3,8,18,var(--dawn-shade,.32)) !important;
-    transition: background .10s linear !important;
+    background:
+      radial-gradient(circle at 56% 72%, rgba(255,184,92,var(--dawn-glow,.00)) 0%, rgba(255,132,54,calc(var(--dawn-glow,.00) * .42)) 30%, transparent 62%),
+      rgba(3,8,18,var(--dawn-shade,.38)) !important;
+    transition: background .08s linear !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .sky-1 { animation: none !important; }
     .reveal, .hero-copy { transition: none !important; transform: none !important; }
     .sky-4::after { display: none !important; }
+    .sky-4::before { filter: none !important; opacity: 1 !important; }
   }
 `;
 document.head.appendChild(motionStyle);
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (!reduceMotion) {
-  const starStages = [...document.querySelectorAll('.sky-1, .sky-2, .sky-3')];
+  // Keep one continuous drift across ALL four background stages. Using the same
+  // offsets prevents the motion from visibly stopping or restarting at a stage boundary.
+  const starStages = [...document.querySelectorAll('.sky-1, .sky-2, .sky-3, .sky-4')];
   const startTime = performance.now();
 
-  // Use inline !important background-position so the drift is not blocked by the
-  // existing !important background-position declarations in styles.css.
   const animateStars = (now) => {
     const t = (now - startTime) / 1000;
     const x = Math.sin(t / 5.2) * 24;
@@ -365,10 +375,24 @@ if (!reduceMotion) {
     if (!sky4) return;
     const rect = sky4.getBoundingClientRect();
     const viewport = window.innerHeight || document.documentElement.clientHeight;
-    const progress = Math.max(0, Math.min(1, (viewport - rect.top) / Math.max(viewport * 1.15, 1)));
+
+    // Start the dawn as soon as the final stage approaches the viewport, then
+    // complete most of the change by the time its upper half has passed the screen.
+    const raw = (viewport * 1.10 - rect.top) / Math.max(viewport * 1.55, 1);
+    const progress = Math.max(0, Math.min(1, raw));
     const eased = progress * progress * (3 - 2 * progress);
-    const shade = 0.34 - eased * 0.31;
+
+    const shade = 0.40 - eased * 0.38;
+    const glow = eased * 0.22;
+    const brightness = 0.58 + eased * 0.62;
+    const saturation = 0.76 + eased * 0.34;
+    const opacity = 0.58 + eased * 0.42;
+
     sky4.style.setProperty('--dawn-shade', shade.toFixed(3));
+    sky4.style.setProperty('--dawn-glow', glow.toFixed(3));
+    sky4.style.setProperty('--dawn-brightness', brightness.toFixed(3));
+    sky4.style.setProperty('--dawn-saturation', saturation.toFixed(3));
+    sky4.style.setProperty('--dawn-opacity', opacity.toFixed(3));
     ticking = false;
   };
 
