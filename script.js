@@ -26,6 +26,53 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
 
+// Transparent moon on the open right side of the hero.
+const hero = document.querySelector('.hero');
+if (hero && !hero.querySelector('.hero-moon')) {
+  const moon = document.createElement('img');
+  moon.className = 'hero-moon';
+  moon.src = 'assets/moon-transparent.png';
+  moon.alt = '';
+  moon.setAttribute('aria-hidden', 'true');
+  hero.appendChild(moon);
+
+  const moonStyle = document.createElement('style');
+  moonStyle.textContent = `
+    .hero-moon {
+      position: absolute;
+      z-index: 1;
+      right: clamp(35px, 7vw, 145px);
+      top: 50%;
+      width: clamp(250px, 30vw, 500px);
+      height: auto;
+      transform: translateY(-50%);
+      pointer-events: none;
+      user-select: none;
+      opacity: .94;
+      filter: drop-shadow(0 0 28px rgba(220,230,255,.10));
+    }
+    .hero-grid { z-index: 2 !important; }
+    @media (max-width: 900px) {
+      .hero-moon {
+        right: -45px;
+        width: clamp(210px, 44vw, 330px);
+        opacity: .68;
+      }
+      .hero-copy { max-width: 72%; }
+    }
+    @media (max-width: 620px) {
+      .hero-moon {
+        right: -78px;
+        top: 31%;
+        width: 245px;
+        opacity: .48;
+      }
+      .hero-copy { max-width: 100%; }
+    }
+  `;
+  document.head.appendChild(moonStyle);
+}
+
 const templePhoto = document.querySelector('.temple-photo');
 if (templePhoto) {
   templePhoto.style.setProperty('background-image', 'url("assets/living-temple-building.png")', 'important');
@@ -102,7 +149,6 @@ openLowerTextStyle.textContent = `
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-
   .sky-3 .temple-copy,
   .sky-3 .checklist,
   .sky-4 .love .narrow,
@@ -110,145 +156,38 @@ openLowerTextStyle.textContent = `
   .sky-4 .about .narrow {
     text-shadow: 0 2px 8px rgba(0,0,0,.88), 0 1px 2px rgba(0,0,0,.95);
   }
-
   .sky-4 .love .narrow,
   .sky-4 .restoration .narrow,
-  .sky-4 .about .narrow {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  .sky-3 .checklist p {
-    background: transparent !important;
-    border-bottom-color: rgba(255,255,255,.18) !important;
-  }
-
-  .sky-4 .final-list span {
-    background: rgba(6,14,25,.24) !important;
-    border-color: rgba(255,255,255,.28) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,.18);
-  }
-
-  .sky-4 .btn-primary {
-    text-shadow: none !important;
-  }
+  .sky-4 .about .narrow { padding-left:0!important;padding-right:0!important; }
+  .sky-3 .checklist p { background:transparent!important;border-bottom-color:rgba(255,255,255,.18)!important; }
+  .sky-4 .final-list span { background:rgba(6,14,25,.24)!important;border-color:rgba(255,255,255,.28)!important;box-shadow:0 2px 8px rgba(0,0,0,.18); }
+  .sky-4 .btn-primary { text-shadow:none!important; }
 `;
 document.head.appendChild(openLowerTextStyle);
 
 const deCardStyle = document.createElement('style');
 deCardStyle.textContent = `
-  .sky-2 .pillar-card {
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    min-height: 0 !important;
-    padding: 12px 30px !important;
-  }
-  .sky-2 .pillar-card + .pillar-card {
-    border-left: 1px solid rgba(233,181,103,.34) !important;
-  }
-  .sky-2 .pillar-card h3,
-  .sky-2 .pillar-card h4,
-  .sky-2 .pillar-card p,
-  .sky-2 .pillar-card a {
-    text-shadow: 0 2px 8px rgba(0,0,0,.82), 0 1px 2px rgba(0,0,0,.9);
-  }
-
-  .sky-2 .story-step,
-  .sky-2 .story-step.emphasis {
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 18px 12px !important;
-    border-bottom: 1px solid rgba(255,255,255,.16) !important;
-  }
-  .sky-2 .story-step.emphasis {
-    border-bottom-color: rgba(233,181,103,.7) !important;
-  }
-
-  .sky-2 .word-card {
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    min-height: 0 !important;
-    padding: 20px 22px !important;
-    border-top: 1px solid rgba(255,255,255,.16) !important;
-  }
-  .sky-2 .word-card:last-child {
-    border-bottom: 1px solid rgba(255,255,255,.16) !important;
-  }
-
-  .sky-2 .rise-step {
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 24px 26px !important;
-    border-top: 1px solid rgba(255,255,255,.18) !important;
-  }
-  .sky-2 .rise-step + .rise-step {
-    border-left: 1px solid rgba(233,181,103,.24) !important;
-  }
-
-  .sky-3 .transform-flow span {
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    padding: 8px 10px !important;
-    text-shadow: 0 2px 7px rgba(0,0,0,.85);
-  }
-
-  .sky-3 .temple-copy {
-    padding: 0 !important;
-  }
-
-  .sky-4 .study-card {
-    background: rgba(6,14,25,.40) !important;
-    border: 1px solid rgba(233,181,103,.28) !important;
-    border-radius: 12px !important;
-    box-shadow: none !important;
-    min-height: 0 !important;
-    padding: 22px 24px !important;
-  }
-  .sky-4 .study-card:hover {
-    background: rgba(6,14,25,.54) !important;
-    border-color: rgba(233,181,103,.58) !important;
-    transform: translateY(-2px);
-  }
-
-  @media (max-width: 980px) {
-    .sky-2 .pillar-card + .pillar-card,
-    .sky-2 .rise-step + .rise-step {
-      border-left: 0 !important;
-      border-top: 1px solid rgba(255,255,255,.18) !important;
-    }
-  }
+  .sky-2 .pillar-card {background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;min-height:0!important;padding:12px 30px!important}
+  .sky-2 .pillar-card + .pillar-card {border-left:1px solid rgba(233,181,103,.34)!important}
+  .sky-2 .pillar-card h3,.sky-2 .pillar-card h4,.sky-2 .pillar-card p,.sky-2 .pillar-card a {text-shadow:0 2px 8px rgba(0,0,0,.82),0 1px 2px rgba(0,0,0,.9)}
+  .sky-2 .story-step,.sky-2 .story-step.emphasis {background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:18px 12px!important;border-bottom:1px solid rgba(255,255,255,.16)!important}
+  .sky-2 .story-step.emphasis {border-bottom-color:rgba(233,181,103,.7)!important}
+  .sky-2 .word-card {background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;min-height:0!important;padding:20px 22px!important;border-top:1px solid rgba(255,255,255,.16)!important}
+  .sky-2 .word-card:last-child {border-bottom:1px solid rgba(255,255,255,.16)!important}
+  .sky-2 .rise-step {background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:24px 26px!important;border-top:1px solid rgba(255,255,255,.18)!important}
+  .sky-2 .rise-step + .rise-step {border-left:1px solid rgba(233,181,103,.24)!important}
+  .sky-3 .transform-flow span {background:transparent!important;border:0!important;border-radius:0!important;padding:8px 10px!important;text-shadow:0 2px 7px rgba(0,0,0,.85)}
+  .sky-3 .temple-copy {padding:0!important}
+  .sky-4 .study-card {background:rgba(6,14,25,.40)!important;border:1px solid rgba(233,181,103,.28)!important;border-radius:12px!important;box-shadow:none!important;min-height:0!important;padding:22px 24px!important}
+  .sky-4 .study-card:hover {background:rgba(6,14,25,.54)!important;border-color:rgba(233,181,103,.58)!important;transform:translateY(-2px)}
+  @media(max-width:980px){.sky-2 .pillar-card + .pillar-card,.sky-2 .rise-step + .rise-step{border-left:0!important;border-top:1px solid rgba(255,255,255,.18)!important}}
 `;
 document.head.appendChild(deCardStyle);
 
 const cleanupStyle = document.createElement('style');
 cleanupStyle.textContent = `
-  .sky-3 .dwelling-path {
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 16px 0 !important;
-  }
-
-  .story-arrow,
-  .transform-flow > b,
-  .dwelling-path > i {
-    display: none !important;
-  }
-
-  .sky-3 .dwelling-path {
-    justify-content: space-between !important;
-    gap: 18px !important;
-  }
+  .sky-3 .dwelling-path {background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:16px 0!important;justify-content:space-between!important;gap:18px!important}
+  .story-arrow,.transform-flow > b,.dwelling-path > i {display:none!important}
 `;
 document.head.appendChild(cleanupStyle);
 
@@ -258,113 +197,38 @@ document.querySelectorAll('.story-step > span, .rise-step > span, .dwelling-path
 
 const storyLayoutStyle = document.createElement('style');
 storyLayoutStyle.textContent = `
-  .sky-2 .story-track {
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 22px 28px !important;
-    overflow: visible !important;
-    padding: 12px 0 8px !important;
-  }
-
-  .sky-2 .story-step {
-    min-width: 0 !important;
-    width: auto !important;
-    padding: 18px 0 22px !important;
-  }
-
-  .sky-2 .story-step strong {
-    font-size: clamp(24px, 2.2vw, 34px) !important;
-  }
-
-  .sky-2 .story-step small {
-    display: block !important;
-    max-width: none !important;
-  }
-
-  @media (max-width: 900px) {
-    .sky-2 .story-track {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .sky-2 .story-track {
-      grid-template-columns: 1fr !important;
-      gap: 8px !important;
-    }
-  }
+  .sky-2 .story-track {display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:22px 28px!important;overflow:visible!important;padding:12px 0 8px!important}
+  .sky-2 .story-step {min-width:0!important;width:auto!important;padding:18px 0 22px!important}
+  .sky-2 .story-step strong {font-size:clamp(24px,2.2vw,34px)!important}
+  .sky-2 .story-step small {display:block!important;max-width:none!important}
+  @media(max-width:900px){.sky-2 .story-track{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+  @media(max-width:560px){.sky-2 .story-track{grid-template-columns:1fr!important;gap:8px!important}}
 `;
 document.head.appendChild(storyLayoutStyle);
 
 // Cinematic motion and dawn progression.
 const motionStyle = document.createElement('style');
 motionStyle.textContent = `
-  @keyframes heroAwaken {
-    0% { opacity: .16; filter: brightness(.38); }
-    100% { opacity: 1; filter: brightness(1); }
-  }
-
-  .sky-1 {
-    animation: heroAwaken 2.6s ease-out both;
-  }
-
-  .hero-copy {
-    transition: opacity .9s ease, transform .9s ease;
-  }
-
-  .reveal {
-    transform: translateY(14px) !important;
-    transition: opacity .7s ease, transform .7s ease !important;
-  }
-
-  .reveal.visible {
-    transform: translateY(0) !important;
-  }
-
-  /* The sunrise itself becomes brighter and warmer as the visitor enters the final stage. */
-  .sky-4::before {
-    filter: brightness(var(--dawn-brightness,.62)) saturate(var(--dawn-saturation,.78)) !important;
-    opacity: var(--dawn-opacity,.62) !important;
-    transition: filter .08s linear, opacity .08s linear !important;
-  }
-
-  /* A subtle ambient glow lets the star field begin to feel like dawn before the mountains fill the screen. */
-  .sky-4::after {
-    content: "" !important;
-    display: block !important;
-    position: absolute !important;
-    z-index: 1 !important;
-    inset: 0 !important;
-    pointer-events: none !important;
-    background:
-      radial-gradient(circle at 56% 72%, rgba(255,184,92,var(--dawn-glow,.00)) 0%, rgba(255,132,54,calc(var(--dawn-glow,.00) * .42)) 30%, transparent 62%),
-      rgba(3,8,18,var(--dawn-shade,.38)) !important;
-    transition: background .08s linear !important;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .sky-1 { animation: none !important; }
-    .reveal, .hero-copy { transition: none !important; transform: none !important; }
-    .sky-4::after { display: none !important; }
-    .sky-4::before { filter: none !important; opacity: 1 !important; }
-  }
+  @keyframes heroAwaken {0%{opacity:.16;filter:brightness(.38)}100%{opacity:1;filter:brightness(1)}}
+  .sky-1 {animation:heroAwaken 2.6s ease-out both}
+  .hero-copy {transition:opacity .9s ease,transform .9s ease}
+  .reveal {transform:translateY(14px)!important;transition:opacity .7s ease,transform .7s ease!important}
+  .reveal.visible {transform:translateY(0)!important}
+  .sky-4::before {filter:brightness(var(--dawn-brightness,.62)) saturate(var(--dawn-saturation,.78))!important;opacity:var(--dawn-opacity,.62)!important;transition:filter .08s linear,opacity .08s linear!important}
+  .sky-4::after {content:""!important;display:block!important;position:absolute!important;z-index:1!important;inset:0!important;pointer-events:none!important;background:radial-gradient(circle at 56% 72%,rgba(255,184,92,var(--dawn-glow,.00)) 0%,rgba(255,132,54,calc(var(--dawn-glow,.00) * .42)) 30%,transparent 62%),rgba(3,8,18,var(--dawn-shade,.38))!important;transition:background .08s linear!important}
+  @media(prefers-reduced-motion:reduce){.sky-1{animation:none!important}.reveal,.hero-copy{transition:none!important;transform:none!important}.sky-4::after{display:none!important}.sky-4::before{filter:none!important;opacity:1!important}}
 `;
 document.head.appendChild(motionStyle);
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (!reduceMotion) {
-  // Keep one continuous drift across ALL four background stages. Using the same
-  // offsets prevents the motion from visibly stopping or restarting at a stage boundary.
   const starStages = [...document.querySelectorAll('.sky-1, .sky-2, .sky-3, .sky-4')];
   const startTime = performance.now();
-
   const animateStars = (now) => {
     const t = (now - startTime) / 1000;
     const x = Math.sin(t / 5.2) * 24;
     const y = Math.cos(t / 7.1) * 18;
-    starStages.forEach(stage => {
-      stage.style.setProperty('background-position', `calc(50% + ${x.toFixed(1)}px) ${y.toFixed(1)}px`, 'important');
-    });
+    starStages.forEach(stage => stage.style.setProperty('background-position', `calc(50% + ${x.toFixed(1)}px) ${y.toFixed(1)}px`, 'important'));
     requestAnimationFrame(animateStars);
   };
   requestAnimationFrame(animateStars);
@@ -375,19 +239,14 @@ if (!reduceMotion) {
     if (!sky4) return;
     const rect = sky4.getBoundingClientRect();
     const viewport = window.innerHeight || document.documentElement.clientHeight;
-
-    // Start the dawn as soon as the final stage approaches the viewport, then
-    // complete most of the change by the time its upper half has passed the screen.
     const raw = (viewport * 1.10 - rect.top) / Math.max(viewport * 1.55, 1);
     const progress = Math.max(0, Math.min(1, raw));
     const eased = progress * progress * (3 - 2 * progress);
-
     const shade = 0.40 - eased * 0.38;
     const glow = eased * 0.22;
     const brightness = 0.58 + eased * 0.62;
     const saturation = 0.76 + eased * 0.34;
     const opacity = 0.58 + eased * 0.42;
-
     sky4.style.setProperty('--dawn-shade', shade.toFixed(3));
     sky4.style.setProperty('--dawn-glow', glow.toFixed(3));
     sky4.style.setProperty('--dawn-brightness', brightness.toFixed(3));
@@ -395,14 +254,9 @@ if (!reduceMotion) {
     sky4.style.setProperty('--dawn-opacity', opacity.toFixed(3));
     ticking = false;
   };
-
   const requestDawnUpdate = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(updateDawn);
-      ticking = true;
-    }
+    if (!ticking) { window.requestAnimationFrame(updateDawn); ticking = true; }
   };
-
   updateDawn();
   window.addEventListener('scroll', requestDawnUpdate, { passive: true });
   window.addEventListener('resize', requestDawnUpdate);
