@@ -23,9 +23,10 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-document.getElementById('year').textContent = new Date().getFullYear();
+const year = document.getElementById('year');
+if (year) year.textContent = new Date().getFullYear();
 
-// Restore the original Living Temple artwork directly.
+// Restore the Living Temple image from the actual existing asset.
 const templePhoto = document.querySelector('.temple-photo');
 if (templePhoto) {
   templePhoto.style.setProperty('background-image', 'url("assets/living-temple-building.png")', 'important');
@@ -34,41 +35,25 @@ if (templePhoto) {
   templePhoto.style.setProperty('background-repeat', 'no-repeat', 'important');
 }
 
-// Use the approved two-scene composite from the assets folder and crop each half in place.
-const composite = 'url("assets/ChatGPT Image Aug 24, 2026, 11_28_20 AM.png")';
+// The approved two-picture composite currently exists in the repository root.
+const composite = 'url("ChatGPT Image Aug 24, 2026, 11_28_20 AM.png")';
 
-const follow = document.querySelector('.story-image-follow');
-if (follow) {
-  const img = follow.querySelector('img');
-  if (img) img.style.display = 'none';
-  follow.style.display = 'block';
-  follow.style.width = 'min(860px, 92%)';
-  follow.style.aspectRatio = '620 / 375';
-  follow.style.margin = '44px auto 42px';
-  follow.style.borderRadius = '24px';
-  follow.style.overflow = 'hidden';
-  follow.style.backgroundImage = composite;
-  follow.style.backgroundRepeat = 'no-repeat';
-  follow.style.backgroundSize = '294.84% 229.33%';
-  follow.style.backgroundPosition = '20.70% 6.19%';
-  follow.style.border = '1px solid rgba(255,255,255,.14)';
-  follow.style.boxShadow = '0 26px 70px rgba(0,0,0,.30)';
+function styleStoryVisual(el, position, ratio) {
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.width = 'min(860px, 92%)';
+  el.style.aspectRatio = ratio;
+  el.style.margin = '44px auto 42px';
+  el.style.borderRadius = '24px';
+  el.style.overflow = 'hidden';
+  el.style.backgroundImage = composite;
+  el.style.backgroundRepeat = 'no-repeat';
+  el.style.backgroundSize = '294.84% auto';
+  el.style.backgroundPosition = position;
+  el.style.backgroundColor = '#06101b';
+  el.style.border = '1px solid rgba(255,255,255,.14)';
+  el.style.boxShadow = '0 26px 70px rgba(0,0,0,.30)';
 }
 
-const tomb = document.querySelector('.story-image-tomb');
-if (tomb) {
-  const img = tomb.querySelector('img');
-  if (img) img.style.display = 'none';
-  tomb.style.display = 'block';
-  tomb.style.width = 'min(820px, 92%)';
-  tomb.style.aspectRatio = '620 / 365';
-  tomb.style.margin = '44px auto 42px';
-  tomb.style.borderRadius = '24px';
-  tomb.style.overflow = 'hidden';
-  tomb.style.backgroundImage = composite;
-  tomb.style.backgroundRepeat = 'no-repeat';
-  tomb.style.backgroundSize = '294.84% 235.62%';
-  tomb.style.backgroundPosition = '20.70% 87.88%';
-  tomb.style.border = '1px solid rgba(255,255,255,.14)';
-  tomb.style.boxShadow = '0 26px 70px rgba(0,0,0,.30)';
-}
+styleStoryVisual(document.querySelector('.follow-visual'), '20.7% 6.2%', '620 / 375');
+styleStoryVisual(document.querySelector('.tomb-visual'), '20.7% 88%', '620 / 365');
