@@ -21,5 +21,4 @@ main{position:relative;overflow:hidden;background:#07172f}.sky-stage{position:re
 .feature-quote{border-left:0!important;padding-left:0!important}
 .feature-quote span,.dwelling-path i,.rule-line{display:none!important}
 .checklist p{border-bottom:0!important}
-.discipleship .word-card{border-color:transparent!important}
-.new-life .rise-step{border-color:transparent!important}
+.pillar-card,.word-card,.rise-step{border:0!important}
