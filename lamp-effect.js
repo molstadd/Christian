@@ -70,9 +70,19 @@
 
 // Final sunrise readability refinements.
 (() => {
+  const restorationSection = document.querySelector('.sky-4 .restoration');
+  const restoration = restorationSection?.querySelector('.narrow');
+  const cta = restoration?.querySelector('.btn-primary');
+  if (restorationSection && restoration && cta) {
+    const ctaWrap = document.createElement('div');
+    ctaWrap.className = 'restoration-cta';
+    restorationSection.appendChild(ctaWrap);
+    ctaWrap.appendChild(cta);
+  }
+
   const style = document.createElement('style');
   style.textContent = `
-    /* Let the dark accent hold the entire closing thought together. */
+    /* Let the dark accent hold the closing message, while the CTA sits below it on the sunrise. */
     .sky-4 .restoration .narrow{
       width:min(1120px,calc(100% - 40px))!important;
       max-width:1120px!important;
@@ -87,6 +97,12 @@
     .sky-4 .restoration .restoration-shade{
       width:100%!important;margin:28px 0 0!important;padding:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
     }
+    .sky-4 .restoration .restoration-cta{
+      position:relative!important;z-index:3!important;text-align:center!important;margin:28px auto 0!important;
+    }
+    .sky-4 .restoration .restoration-cta .btn-primary{
+      display:inline-flex!important;margin:0!important;
+    }
     /* The studies heading sits on a darker part of the photograph, so force strong light contrast. */
     .sky-4 #studies .section-heading .eyebrow,
     .sky-4 #studies .section-heading .eyebrow.dark{
@@ -95,7 +111,7 @@
     .sky-4 #studies .section-heading h2{
       color:#fffef9!important;text-shadow:0 3px 14px rgba(0,0,0,.95),0 1px 3px rgba(0,0,0,1)!important;
     }
-    @media(max-width:620px){.sky-4 .restoration .narrow{width:calc(100% - 28px)!important;padding:30px 18px 26px!important;border-radius:20px!important;}}
+    @media(max-width:620px){.sky-4 .restoration .narrow{width:calc(100% - 28px)!important;padding:30px 18px 26px!important;border-radius:20px!important;}.sky-4 .restoration .restoration-cta{margin-top:22px!important;}}
   `;
   document.head.appendChild(style);
 })();
