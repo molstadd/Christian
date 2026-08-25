@@ -19,7 +19,7 @@
     .word-torch img{display:block;width:100%;height:auto;position:relative;z-index:2;}
     .torch-aura{position:absolute;z-index:1;width:150%;aspect-ratio:1;left:-22%;top:-39%;border-radius:50%;background:radial-gradient(circle,rgba(255,229,151,.46) 0%,rgba(255,164,59,.30) 20%,rgba(236,91,18,.16) 42%,rgba(170,54,10,.06) 58%,transparent 73%);filter:blur(13px);animation:fireGlow .62s ease-in-out infinite alternate;mix-blend-mode:screen;}
     .torch-embers{position:absolute;z-index:3;left:32%;top:-8%;width:38%;height:40%;}.torch-embers i{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffd37a;box-shadow:0 0 7px #ff8b2c;opacity:0;animation:ember 1.8s ease-out infinite;}.torch-embers i:nth-child(1){left:22%;animation-delay:.05s}.torch-embers i:nth-child(2){left:47%;animation-delay:.55s}.torch-embers i:nth-child(3){left:67%;animation-delay:1s}.torch-embers i:nth-child(4){left:36%;animation-delay:1.4s}
-    .word-torch.torch-running{opacity:1}.word-torch.torch-rest{opacity:0;transition:opacity 1.4s ease}
+    .word-torch.torch-running{opacity:1}.word-torch.torch-rest{opacity:0;transition:opacity 1.5s ease}
     @keyframes fireGlow{0%{transform:scale(.94,.98);opacity:.72;filter:blur(14px) brightness(.95)}45%{transform:scale(1.04,1.08);opacity:1;filter:blur(12px) brightness(1.12)}70%{transform:scale(.98,1.03);opacity:.82;filter:blur(14px) brightness(1.02)}100%{transform:scale(1.07,.97);opacity:.92;filter:blur(13px) brightness(1.08)}}
     @keyframes ember{0%{transform:translate(0,12px) scale(.45);opacity:0}15%{opacity:.9}65%{opacity:.5}100%{transform:translate(9px,-42px) scale(.1);opacity:0}}
     @media(max-width:700px){.word-torch{width:105px}.torch-aura{filter:blur(10px)}}
@@ -46,20 +46,10 @@
       await sleep(i===0?1600:3100);
     }
 
-    await sleep(900);cards.forEach(c=>c.classList.remove('torch-lit'));
-    const last=pointFor(cards[cards.length-1]);
-    const returnY=last.y+150;
-    torch.style.transition='top 1.5s cubic-bezier(.4,0,.2,1), transform 1.5s ease';
-    torch.style.top=`${returnY}px`;torch.style.transform='translate(-42%,-30%) rotate(-10deg)';
-    await sleep(1650);
-
-    const startNow=pointFor(cards[0]);
-    torch.style.transition='left 5.2s cubic-bezier(.45,.05,.25,1), transform 5.2s ease';
-    torch.style.left=`${startNow.x}px`;torch.style.transform='translate(-42%,-30%) rotate(-7deg)';
-    await sleep(5400);
-
-    torch.style.transition='top 1.6s cubic-bezier(.4,0,.2,1)';torch.style.top=`${startNow.y}px`;
-    await sleep(1750);torch.classList.remove('torch-running');torch.classList.add('torch-rest');
+    await sleep(1000);
+    cards.forEach(c=>c.classList.remove('torch-lit'));
+    torch.classList.remove('torch-running');
+    torch.classList.add('torch-rest');
   }
 
   const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&!started){started=true;play();observer.disconnect();}},{threshold:.35});
