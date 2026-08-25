@@ -200,3 +200,99 @@
   `;
   document.head.appendChild(style);
 })();
+
+// Smooth vine override: use one SVG stroke mask so there are no segment handoffs.
+(() => {
+  const track = document.querySelector('#big-story .story-track');
+  if (!track) return;
+
+  const old = track.querySelector('.story-vine-photo');
+  if (old) old.remove();
+
+  const ns = 'http://www.w3.org/2000/svg';
+  const xlink = 'http://www.w3.org/1999/xlink';
+  const svg = document.createElementNS(ns,'svg');
+  svg.setAttribute('class','story-vine-smooth');
+  svg.setAttribute('viewBox','0 0 1000 360');
+  svg.setAttribute('preserveAspectRatio','none');
+  svg.setAttribute('aria-hidden','true');
+
+  const defs = document.createElementNS(ns,'defs');
+  const mask = document.createElementNS(ns,'mask');
+  mask.setAttribute('id','vineGrowMask');
+  mask.setAttribute('maskUnits','userSpaceOnUse');
+  mask.setAttribute('x','-80');
+  mask.setAttribute('y','-80');
+  mask.setAttribute('width','1160');
+  mask.setAttribute('height','520');
+
+  const path = document.createElementNS(ns,'path');
+  path.setAttribute('d','M 0 104 C 105 75 205 112 315 93 C 430 73 520 111 625 95 C 735 77 835 105 910 96 C 967 89 993 118 990 163 C 988 209 969 237 919 246 C 836 261 755 241 662 258 C 560 277 464 247 365 260 C 260 275 165 247 78 259 C 45 264 20 266 0 263');
+  path.setAttribute('fill','none');
+  path.setAttribute('stroke','white');
+  path.setAttribute('stroke-width','138');
+  path.setAttribute('stroke-linecap','round');
+  path.setAttribute('stroke-linejoin','round');
+  path.setAttribute('pathLength','1');
+  path.style.strokeDasharray = '1';
+  path.style.strokeDashoffset = '1';
+  mask.appendChild(path);
+  defs.appendChild(mask);
+  svg.appendChild(defs);
+
+  const image = document.createElementNS(ns,'image');
+  image.setAttribute('x','0');
+  image.setAttribute('y','0');
+  image.setAttribute('width','1000');
+  image.setAttribute('height','360');
+  image.setAttribute('preserveAspectRatio','none');
+  image.setAttribute('href','assets/Vine-(1).png');
+  image.setAttributeNS(xlink,'xlink:href','assets/Vine-(1).png');
+  image.setAttribute('mask','url(#vineGrowMask)');
+  svg.appendChild(image);
+  track.prepend(svg);
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #big-story .story-vine-photo{display:none!important}
+    #big-story .story-vine-smooth{
+      position:absolute;z-index:1;left:-2.5%;top:-5%;width:105%;height:110%;
+      overflow:visible;pointer-events:none;
+      filter:brightness(.72) saturate(.76) contrast(1.08) drop-shadow(0 5px 5px rgba(0,0,0,.62));
+    }
+    @media(max-width:760px){#big-story .story-vine-smooth{display:none!important}}
+  `;
+  document.head.appendChild(style);
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    path.style.strokeDashoffset = '0';
+    return;
+  }
+
+  const growMs = 14500;
+  const holdMs = 3800;
+  const fadeMs = 1000;
+  const cycleMs = growMs + holdMs + fadeMs + 700;
+  let started = performance.now();
+
+  const animate = now => {
+    const t = (now - started) % cycleMs;
+    if (t < growMs) {
+      const p = t / growMs;
+      path.style.strokeDashoffset = String(1 - p);
+      svg.style.opacity = '1';
+    } else if (t < growMs + holdMs) {
+      path.style.strokeDashoffset = '0';
+      svg.style.opacity = '1';
+    } else if (t < growMs + holdMs + fadeMs) {
+      path.style.strokeDashoffset = '0';
+      svg.style.opacity = String(1 - ((t - growMs - holdMs) / fadeMs));
+    } else {
+      path.style.strokeDashoffset = '1';
+      svg.style.opacity = '0';
+    }
+    requestAnimationFrame(animate);
+  };
+  requestAnimationFrame(animate);
+})();
