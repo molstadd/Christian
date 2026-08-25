@@ -29,54 +29,21 @@
 
   const separatorFix = document.createElement('style');
   separatorFix.textContent = `
-    .sky-2 .pillar-card,
-    .sky-2 .pillar-card + .pillar-card,
-    .sky-2 .word-card,
-    .sky-2 .word-card:last-child,
-    .sky-2 .rise-step,
-    .sky-2 .rise-step + .rise-step,
-    .sky-2 .story-step,
-    .sky-2 .story-step.emphasis,
-    .sky-3 .checklist p {
-      border-top:0!important;border-right:0!important;border-bottom:0!important;border-left:0!important;border-color:transparent!important;outline:0!important;box-shadow:none!important;
-    }
-    .pillars .pillar-card::before,.pillars .pillar-card::after,
-    .discipleship .word-card::before,.discipleship .word-card::after,
-    .new-life .rise-step::before,.new-life .rise-step::after,
-    .pillars .card-grid::before,.pillars .card-grid::after,
-    .discipleship .discipleship-grid::before,.discipleship .discipleship-grid::after,
-    .new-life .rise-grid::before,.new-life .rise-grid::after{
-      content:none!important;display:none!important;border:0!important;background:none!important;box-shadow:none!important;
-    }
+    .sky-2 .pillar-card,.sky-2 .pillar-card + .pillar-card,.sky-2 .word-card,.sky-2 .word-card:last-child,.sky-2 .rise-step,.sky-2 .rise-step + .rise-step,.sky-2 .story-step,.sky-2 .story-step.emphasis,.sky-3 .checklist p {border-top:0!important;border-right:0!important;border-bottom:0!important;border-left:0!important;border-color:transparent!important;outline:0!important;box-shadow:none!important;}
+    .pillars .pillar-card::before,.pillars .pillar-card::after,.discipleship .word-card::before,.discipleship .word-card::after,.new-life .rise-step::before,.new-life .rise-step::after,.pillars .card-grid::before,.pillars .card-grid::after,.discipleship .discipleship-grid::before,.discipleship .discipleship-grid::after,.new-life .rise-grid::before,.new-life .rise-grid::after{content:none!important;display:none!important;border:0!important;background:none!important;box-shadow:none!important;}
   `;
   document.head.appendChild(separatorFix);
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
   let started=false;
   const sleep=ms=>new Promise(r=>setTimeout(r,ms));
   const pointFor=card=>{const r=card.getBoundingClientRect();return{x:r.left+window.scrollX+r.width*.5,y:r.bottom+window.scrollY+24};};
-
   async function play(){
-    const first=pointFor(cards[0]);
-    torch.style.left=`${first.x}px`;torch.style.top=`${first.y}px`;
-    torch.classList.remove('torch-rest');torch.classList.add('torch-running');
-    torch.style.transform='translate(-42%,-30%) rotate(-7deg)';
-    for(let i=0;i<cards.length;i++){
-      cards.forEach(c=>c.classList.remove('torch-lit'));cards[i].classList.add('torch-lit');
-      const p=pointFor(cards[i]);
-      torch.style.transition=i===0?'opacity .8s ease':'left 2.8s cubic-bezier(.42,0,.25,1), top 2.8s cubic-bezier(.42,0,.25,1), opacity .8s ease';
-      torch.style.left=`${p.x}px`;torch.style.top=`${p.y}px`;
-      await sleep(i===0?1600:3100);
-    }
-    await sleep(1000);
-    cards.forEach(c=>c.classList.remove('torch-lit'));
-    torch.classList.remove('torch-running');
-    torch.classList.add('torch-rest');
+    const first=pointFor(cards[0]);torch.style.left=`${first.x}px`;torch.style.top=`${first.y}px`;torch.classList.remove('torch-rest');torch.classList.add('torch-running');torch.style.transform='translate(-42%,-30%) rotate(-7deg)';
+    for(let i=0;i<cards.length;i++){cards.forEach(c=>c.classList.remove('torch-lit'));cards[i].classList.add('torch-lit');const p=pointFor(cards[i]);torch.style.transition=i===0?'opacity .8s ease':'left 2.8s cubic-bezier(.42,0,.25,1), top 2.8s cubic-bezier(.42,0,.25,1), opacity .8s ease';torch.style.left=`${p.x}px`;torch.style.top=`${p.y}px`;await sleep(i===0?1600:3100);}
+    await sleep(1000);cards.forEach(c=>c.classList.remove('torch-lit'));torch.classList.remove('torch-running');torch.classList.add('torch-rest');
   }
-
-  const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&!started){started=true;play();observer.disconnect();}},{threshold:.35});
-  observer.observe(grid);
+  const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&!started){started=true;play();observer.disconnect();}},{threshold:.35});observer.observe(grid);
 })();
 
 // Restoration summary: keep the ideas, but present them as a quiet closing refrain rather than buttons.
@@ -86,32 +53,49 @@
     finalList.setAttribute('aria-label', 'The restoration pictured in Revelation');
     const style = document.createElement('style');
     style.textContent = `
-      .sky-4 .restoration .final-list{
-        display:flex!important;flex-wrap:wrap!important;justify-content:center!important;align-items:center!important;
-        gap:0!important;margin:34px auto 42px!important;max-width:1100px!important;
-      }
-      .sky-4 .restoration .final-list span{
-        background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
-        padding:4px 18px!important;color:#fff7e8!important;font-family:'Cormorant Garamond',serif!important;
-        font-size:clamp(22px,2.15vw,34px)!important;font-weight:600!important;line-height:1.25!important;
-        text-shadow:0 2px 8px rgba(0,0,0,.82)!important;white-space:nowrap!important;
-      }
-      .sky-4 .restoration .final-list span:not(:last-child)::after{
-        content:'·';display:inline-block;margin-left:36px;color:#e9b567;opacity:.9;
-      }
-      @media(max-width:760px){
-        .sky-4 .restoration .final-list{display:grid!important;grid-template-columns:1fr!important;text-align:center!important;gap:8px!important}
-        .sky-4 .restoration .final-list span{padding:2px 8px!important;white-space:normal!important}
-        .sky-4 .restoration .final-list span::after{display:none!important;content:none!important}
-      }
+      .sky-4 .restoration .final-list{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;align-items:center!important;gap:0!important;margin:34px auto 42px!important;max-width:1100px!important;}
+      .sky-4 .restoration .final-list span{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:4px 18px!important;color:#fff7e8!important;font-family:'Cormorant Garamond',serif!important;font-size:clamp(22px,2.15vw,34px)!important;font-weight:600!important;line-height:1.25!important;text-shadow:0 2px 8px rgba(0,0,0,.82)!important;white-space:nowrap!important;}
+      .sky-4 .restoration .final-list span:not(:last-child)::after{content:'·';display:inline-block;margin-left:36px;color:#e9b567;opacity:.9;}
+      @media(max-width:760px){.sky-4 .restoration .final-list{display:grid!important;grid-template-columns:1fr!important;text-align:center!important;gap:8px!important}.sky-4 .restoration .final-list span{padding:2px 8px!important;white-space:normal!important}.sky-4 .restoration .final-list span::after{display:none!important;content:none!important}}
     `;
     document.head.appendChild(style);
   }
-
   const about = document.querySelector('#about .narrow');
   if (about) {
     const paragraphs = about.querySelectorAll(':scope > p:not(.eyebrow)');
     if (paragraphs[0]) paragraphs[0].textContent = 'The Way of Christ project began with a simple concern: have we made Christianity more complicated in some places and easier in others than Jesus did? This is an attempt to go back to Jesus and His apostles, listen carefully, and ask what it really means to follow Him.';
     if (paragraphs[1]) paragraphs[1].textContent = 'The goal is not to create another system, denomination, or list of arguments. It is to keep returning to the Gospel, to the words of Jesus, and to the witness of His apostles, and to let those shape what we believe, how we live, and who we are becoming.';
   }
+})();
+
+// Final sunrise readability refinements.
+(() => {
+  const style = document.createElement('style');
+  style.textContent = `
+    /* Let the dark accent hold the entire closing thought together. */
+    .sky-4 .restoration .narrow{
+      width:min(1120px,calc(100% - 40px))!important;
+      max-width:1120px!important;
+      background:rgba(5,12,24,.34)!important;
+      border:1px solid rgba(255,255,255,.10)!important;
+      border-radius:26px!important;
+      padding:42px 42px 38px!important;
+      box-shadow:0 20px 55px rgba(0,0,0,.18)!important;
+      backdrop-filter:blur(2px)!important;
+      -webkit-backdrop-filter:blur(2px)!important;
+    }
+    .sky-4 .restoration .restoration-shade{
+      width:100%!important;margin:28px 0 0!important;padding:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+    }
+    /* The studies heading sits on a darker part of the photograph, so force strong light contrast. */
+    .sky-4 #studies .section-heading .eyebrow,
+    .sky-4 #studies .section-heading .eyebrow.dark{
+      color:#efc77f!important;opacity:1!important;text-shadow:0 2px 9px rgba(0,0,0,.95)!important;
+    }
+    .sky-4 #studies .section-heading h2{
+      color:#fffef9!important;text-shadow:0 3px 14px rgba(0,0,0,.95),0 1px 3px rgba(0,0,0,1)!important;
+    }
+    @media(max-width:620px){.sky-4 .restoration .narrow{width:calc(100% - 28px)!important;padding:30px 18px 26px!important;border-radius:20px!important;}}
+  `;
+  document.head.appendChild(style);
 })();
