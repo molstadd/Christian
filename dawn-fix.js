@@ -132,3 +132,24 @@
   `;
   document.head.appendChild(style);
 })();
+
+(() => {
+  const restoration = document.querySelector('.sky-4 .restoration .narrow');
+  if (!restoration) return;
+  const style = document.createElement('style');
+  style.textContent = `
+    .sky-4 .restoration .narrow{
+      background:rgba(5,12,24,.34)!important;
+      border:1px solid rgba(255,255,255,.10)!important;
+      border-radius:24px!important;
+      padding:34px 38px!important;
+      box-shadow:0 18px 48px rgba(0,0,0,.14)!important;
+      backdrop-filter:blur(3px)!important;
+      -webkit-backdrop-filter:blur(3px)!important;
+    }
+    @media(max-width:620px){
+      .sky-4 .restoration .narrow{padding:26px 20px!important;border-radius:20px!important;}
+    }
+  `;
+  document.head.appendChild(style);
+})();
