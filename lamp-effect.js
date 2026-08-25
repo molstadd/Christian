@@ -26,6 +26,40 @@
     @media(prefers-reduced-motion:reduce){.word-torch{display:none!important}.discipleship .word-card:last-child strong{color:#efc77f!important}}
   `;
   document.head.appendChild(style);
+
+  const separatorFix = document.createElement('style');
+  separatorFix.textContent = `
+    .pillars .card-grid,
+    .discipleship .discipleship-grid,
+    .new-life .rise-grid,
+    .pillars .pillar-card,
+    .discipleship .word-card,
+    .new-life .rise-step{
+      border:none!important;
+      border-top:none!important;
+      border-right:none!important;
+      border-bottom:none!important;
+      border-left:none!important;
+      outline:none!important;
+      box-shadow:none!important;
+      background:transparent!important;
+      background-image:none!important;
+    }
+    .pillars .pillar-card::before,.pillars .pillar-card::after,
+    .discipleship .word-card::before,.discipleship .word-card::after,
+    .new-life .rise-step::before,.new-life .rise-step::after,
+    .pillars .card-grid::before,.pillars .card-grid::after,
+    .discipleship .discipleship-grid::before,.discipleship .discipleship-grid::after,
+    .new-life .rise-grid::before,.new-life .rise-grid::after{
+      content:none!important;
+      display:none!important;
+      border:0!important;
+      background:none!important;
+      box-shadow:none!important;
+    }
+  `;
+  document.head.appendChild(separatorFix);
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   let started=false;
