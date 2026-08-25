@@ -29,7 +29,6 @@
 
   const separatorFix = document.createElement('style');
   separatorFix.textContent = `
-    /* Exact overrides for the separator rules injected earlier by script.js. */
     .sky-2 .pillar-card,
     .sky-2 .pillar-card + .pillar-card,
     .sky-2 .word-card,
@@ -39,13 +38,7 @@
     .sky-2 .story-step,
     .sky-2 .story-step.emphasis,
     .sky-3 .checklist p {
-      border-top:0!important;
-      border-right:0!important;
-      border-bottom:0!important;
-      border-left:0!important;
-      border-color:transparent!important;
-      outline:0!important;
-      box-shadow:none!important;
+      border-top:0!important;border-right:0!important;border-bottom:0!important;border-left:0!important;border-color:transparent!important;outline:0!important;box-shadow:none!important;
     }
     .pillars .pillar-card::before,.pillars .pillar-card::after,
     .discipleship .word-card::before,.discipleship .word-card::after,
@@ -53,11 +46,7 @@
     .pillars .card-grid::before,.pillars .card-grid::after,
     .discipleship .discipleship-grid::before,.discipleship .discipleship-grid::after,
     .new-life .rise-grid::before,.new-life .rise-grid::after{
-      content:none!important;
-      display:none!important;
-      border:0!important;
-      background:none!important;
-      box-shadow:none!important;
+      content:none!important;display:none!important;border:0!important;background:none!important;box-shadow:none!important;
     }
   `;
   document.head.appendChild(separatorFix);
@@ -73,7 +62,6 @@
     torch.style.left=`${first.x}px`;torch.style.top=`${first.y}px`;
     torch.classList.remove('torch-rest');torch.classList.add('torch-running');
     torch.style.transform='translate(-42%,-30%) rotate(-7deg)';
-
     for(let i=0;i<cards.length;i++){
       cards.forEach(c=>c.classList.remove('torch-lit'));cards[i].classList.add('torch-lit');
       const p=pointFor(cards[i]);
@@ -81,7 +69,6 @@
       torch.style.left=`${p.x}px`;torch.style.top=`${p.y}px`;
       await sleep(i===0?1600:3100);
     }
-
     await sleep(1000);
     cards.forEach(c=>c.classList.remove('torch-lit'));
     torch.classList.remove('torch-running');
@@ -90,4 +77,41 @@
 
   const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&!started){started=true;play();observer.disconnect();}},{threshold:.35});
   observer.observe(grid);
+})();
+
+// Restoration summary: keep the ideas, but present them as a quiet closing refrain rather than buttons.
+(() => {
+  const finalList = document.querySelector('.restoration .final-list');
+  if (finalList) {
+    finalList.setAttribute('aria-label', 'The restoration pictured in Revelation');
+    const style = document.createElement('style');
+    style.textContent = `
+      .sky-4 .restoration .final-list{
+        display:flex!important;flex-wrap:wrap!important;justify-content:center!important;align-items:center!important;
+        gap:0!important;margin:34px auto 42px!important;max-width:1100px!important;
+      }
+      .sky-4 .restoration .final-list span{
+        background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+        padding:4px 18px!important;color:#fff7e8!important;font-family:'Cormorant Garamond',serif!important;
+        font-size:clamp(22px,2.15vw,34px)!important;font-weight:600!important;line-height:1.25!important;
+        text-shadow:0 2px 8px rgba(0,0,0,.82)!important;white-space:nowrap!important;
+      }
+      .sky-4 .restoration .final-list span:not(:last-child)::after{
+        content:'·';display:inline-block;margin-left:36px;color:#e9b567;opacity:.9;
+      }
+      @media(max-width:760px){
+        .sky-4 .restoration .final-list{display:grid!important;grid-template-columns:1fr!important;text-align:center!important;gap:8px!important}
+        .sky-4 .restoration .final-list span{padding:2px 8px!important;white-space:normal!important}
+        .sky-4 .restoration .final-list span::after{display:none!important;content:none!important}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const about = document.querySelector('#about .narrow');
+  if (about) {
+    const paragraphs = about.querySelectorAll(':scope > p:not(.eyebrow)');
+    if (paragraphs[0]) paragraphs[0].textContent = 'The Way of Christ project began with a simple concern: have we made Christianity more complicated in some places and easier in others than Jesus did? This is an attempt to go back to Jesus and His apostles, listen carefully, and ask what it really means to follow Him.';
+    if (paragraphs[1]) paragraphs[1].textContent = 'The goal is not to create another system, denomination, or list of arguments. It is to keep returning to the Gospel, to the words of Jesus, and to the witness of His apostles, and to let those shape what we believe, how we live, and who we are becoming.';
+  }
 })();
