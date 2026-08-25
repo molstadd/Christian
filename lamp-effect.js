@@ -29,21 +29,23 @@
 
   const separatorFix = document.createElement('style');
   separatorFix.textContent = `
-    .pillars .card-grid,
-    .discipleship .discipleship-grid,
-    .new-life .rise-grid,
-    .pillars .pillar-card,
-    .discipleship .word-card,
-    .new-life .rise-step{
-      border:none!important;
-      border-top:none!important;
-      border-right:none!important;
-      border-bottom:none!important;
-      border-left:none!important;
-      outline:none!important;
+    /* Exact overrides for the separator rules injected earlier by script.js. */
+    .sky-2 .pillar-card,
+    .sky-2 .pillar-card + .pillar-card,
+    .sky-2 .word-card,
+    .sky-2 .word-card:last-child,
+    .sky-2 .rise-step,
+    .sky-2 .rise-step + .rise-step,
+    .sky-2 .story-step,
+    .sky-2 .story-step.emphasis,
+    .sky-3 .checklist p {
+      border-top:0!important;
+      border-right:0!important;
+      border-bottom:0!important;
+      border-left:0!important;
+      border-color:transparent!important;
+      outline:0!important;
       box-shadow:none!important;
-      background:transparent!important;
-      background-image:none!important;
     }
     .pillars .pillar-card::before,.pillars .pillar-card::after,
     .discipleship .word-card::before,.discipleship .word-card::after,
