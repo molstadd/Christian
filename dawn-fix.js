@@ -52,14 +52,17 @@
   if (!track) return;
   const steps = [...track.querySelectorAll('.story-step')];
   if (steps.length !== 8) return;
+
   track.querySelectorAll('.story-arrow').forEach(a => a.style.display = 'none');
   track.querySelector('.story-vine')?.remove();
   track.querySelector('.story-vine-photo')?.remove();
+
   const placement = [[1,1],[2,1],[3,1],[4,1],[4,2],[3,2],[2,2],[1,2]];
   steps.forEach((step,i) => {
     step.style.setProperty('grid-column',String(placement[i][0]),'important');
     step.style.setProperty('grid-row',String(placement[i][1]),'important');
   });
+
   const vineWrap = document.createElement('div');
   vineWrap.className = 'story-vine-photo';
   vineWrap.setAttribute('aria-hidden','true');
@@ -68,41 +71,54 @@
     <div class="vine-segment vine-turn"></div>
     <div class="vine-segment vine-bottom"></div>`;
   track.prepend(vineWrap);
+
   const style = document.createElement('style');
   style.textContent = `
     #big-story .story-track{position:relative!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(150px,auto))!important;column-gap:28px!important;row-gap:72px!important;overflow:visible!important;padding:14px 0 34px!important;isolation:isolate}
     #big-story .story-step{min-width:0!important;position:relative!important;z-index:3!important;background:transparent!important;border:0!important;border-top:0!important;border-bottom:0!important;box-shadow:none!important;padding:22px 8px 18px!important;text-shadow:0 2px 8px rgba(0,0,0,.9)}
     #big-story .story-step.emphasis{border:0!important;background:transparent!important}
     #big-story .story-vine-photo{position:absolute;z-index:1;left:-2.5%;top:-5%;width:105%;height:110%;pointer-events:none;overflow:visible;filter:brightness(.72) saturate(.76) contrast(1.08) drop-shadow(0 5px 5px rgba(0,0,0,.62))}
-    #big-story .vine-segment{position:absolute;inset:0;background:url("assets/Vine-(1).png") center/100% 100% no-repeat;opacity:0;will-change:clip-path,opacity;animation-timing-function:linear}
-    #big-story .vine-top{clip-path:inset(0 100% 42% 0);animation:vineTopFlow 30s linear infinite}
-    #big-story .vine-turn{clip-path:inset(0 0 100% 76%);animation:vineTurnFlow 30s linear infinite}
-    #big-story .vine-bottom{clip-path:inset(42% 0 0 100%);animation:vineBottomFlow 30s linear infinite}
-    @keyframes vineTopFlow{
-      0%{clip-path:inset(0 100% 42% 0);opacity:0}
-      1%{opacity:1}
-      34%{clip-path:inset(0 0 42% 0);opacity:1}
-      93%{clip-path:inset(0 0 42% 0);opacity:1}
-      98%,100%{clip-path:inset(0 0 42% 0);opacity:0}
-    }
-    @keyframes vineTurnFlow{
-      0%,27%{clip-path:inset(0 0 100% 76%);opacity:0}
-      28%{opacity:1}
-      48%{clip-path:inset(0 0 0 76%);opacity:1}
-      93%{clip-path:inset(0 0 0 76%);opacity:1}
-      98%,100%{clip-path:inset(0 0 0 76%);opacity:0}
-    }
-    @keyframes vineBottomFlow{
-      0%,41%{clip-path:inset(42% 0 0 100%);opacity:0}
-      42%{opacity:1}
-      79%{clip-path:inset(42% 0 0 0);opacity:1}
-      93%{clip-path:inset(42% 0 0 0);opacity:1}
-      98%,100%{clip-path:inset(42% 0 0 0);opacity:0}
-    }
+    #big-story .vine-segment{position:absolute;inset:0;background:url("assets/Vine-(1).png") center/100% 100% no-repeat;opacity:0;will-change:clip-path,opacity}
     @media(max-width:760px){#big-story .story-track{grid-template-columns:1fr!important;grid-template-rows:none!important;gap:12px!important}#big-story .story-step{grid-column:1!important;grid-row:auto!important;padding:18px 4px!important}#big-story .story-vine-photo{display:none!important}}
-    @media(prefers-reduced-motion:reduce){#big-story .vine-segment{animation:none!important;opacity:1!important}#big-story .vine-top{clip-path:inset(0 0 42% 0)!important}#big-story .vine-turn{clip-path:inset(0 0 0 76%)!important}#big-story .vine-bottom{clip-path:inset(42% 0 0 0)!important}}
+    @media(prefers-reduced-motion:reduce){#big-story .vine-segment{opacity:1!important}#big-story .vine-top{clip-path:inset(0 0 42% 0)!important}#big-story .vine-turn{clip-path:inset(0 0 0 76%)!important}#big-story .vine-bottom{clip-path:inset(42% 0 0 0)!important}}
   `;
   document.head.appendChild(style);
+
+  const top = vineWrap.querySelector('.vine-top');
+  const turn = vineWrap.querySelector('.vine-turn');
+  const bottom = vineWrap.querySelector('.vine-bottom');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  const clamp01 = n => Math.max(0, Math.min(1, n));
+  const phase = (p, start, end) => clamp01((p - start) / (end - start));
+  const cycleMs = 24000;
+  const holdStart = .90;
+  const fadeStart = .965;
+  let startTime = performance.now();
+
+  const draw = now => {
+    const p = ((now - startTime) % cycleMs) / cycleMs;
+
+    // One continuous growth timeline: top -> right-hand bend -> bottom.
+    // The phases intentionally overlap so the visible tip never stalls.
+    const topP = phase(p, .00, .39);
+    const turnP = phase(p, .31, .55);
+    const bottomP = phase(p, .47, holdStart);
+
+    const fade = p < fadeStart ? 1 : clamp01(1 - (p - fadeStart) / (1 - fadeStart));
+
+    top.style.clipPath = `inset(0 ${(100 * (1 - topP)).toFixed(2)}% 42% 0)`;
+    turn.style.clipPath = `inset(0 0 ${(100 * (1 - turnP)).toFixed(2)}% 76%)`;
+    bottom.style.clipPath = `inset(42% 0 0 ${(100 * (1 - bottomP)).toFixed(2)}%)`;
+
+    top.style.opacity = topP > 0 ? fade : 0;
+    turn.style.opacity = turnP > 0 ? fade : 0;
+    bottom.style.opacity = bottomP > 0 ? fade : 0;
+
+    requestAnimationFrame(draw);
+  };
+  requestAnimationFrame(draw);
 })();
 
 (() => {
