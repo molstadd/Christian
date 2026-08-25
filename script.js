@@ -36,6 +36,12 @@ if (hero && !hero.querySelector('.hero-moon')) {
   moon.setAttribute('aria-hidden', 'true');
   hero.appendChild(moon);
 
+  const clouds = document.createElement('div');
+  clouds.className = 'hero-clouds';
+  clouds.setAttribute('aria-hidden', 'true');
+  clouds.innerHTML = '<span class="cloud cloud-one"></span><span class="cloud cloud-two"></span>';
+  hero.appendChild(clouds);
+
   const moonStyle = document.createElement('style');
   moonStyle.textContent = `
     .sky-1::before {
@@ -52,15 +58,67 @@ if (hero && !hero.querySelector('.hero-moon')) {
       transform: translateY(-50%);
       pointer-events: none;
       user-select: none;
-      opacity: .94;
-      filter: drop-shadow(0 0 28px rgba(220,230,255,.10));
+      opacity: .86;
+      filter: brightness(.88) saturate(.84) contrast(.94) drop-shadow(0 0 34px rgba(215,225,245,.13));
     }
-    .hero-grid { z-index: 2 !important; }
+    .hero-clouds {
+      position:absolute;
+      z-index:2;
+      right:clamp(20px,5vw,110px);
+      top:50%;
+      width:clamp(300px,35vw,610px);
+      height:clamp(180px,22vw,360px);
+      transform:translateY(-50%);
+      pointer-events:none;
+      overflow:visible;
+    }
+    .hero-clouds .cloud {
+      position:absolute;
+      left:-15%;
+      width:135%;
+      height:34%;
+      border-radius:50%;
+      opacity:.18;
+      filter:blur(12px);
+      background:
+        radial-gradient(ellipse at 18% 58%,rgba(225,230,238,.18) 0 19%,transparent 47%),
+        radial-gradient(ellipse at 42% 46%,rgba(235,238,242,.24) 0 16%,transparent 44%),
+        radial-gradient(ellipse at 68% 56%,rgba(220,226,235,.18) 0 17%,transparent 45%),
+        radial-gradient(ellipse at 88% 42%,rgba(235,238,242,.12) 0 13%,transparent 40%);
+      mix-blend-mode:screen;
+      will-change:transform;
+    }
+    .hero-clouds .cloud-one {
+      top:29%;
+      transform:rotate(-4deg);
+      animation:moonCloudDriftOne 34s ease-in-out infinite alternate;
+    }
+    .hero-clouds .cloud-two {
+      top:52%;
+      opacity:.11;
+      transform:rotate(3deg) scaleY(.72);
+      animation:moonCloudDriftTwo 46s ease-in-out infinite alternate;
+    }
+    @keyframes moonCloudDriftOne {
+      from { transform:translateX(-3%) rotate(-4deg); }
+      to { transform:translateX(8%) rotate(-2deg); }
+    }
+    @keyframes moonCloudDriftTwo {
+      from { transform:translateX(5%) rotate(3deg) scaleY(.72); }
+      to { transform:translateX(-7%) rotate(1deg) scaleY(.78); }
+    }
+    .hero-grid { z-index: 3 !important; }
     @media (max-width: 900px) {
       .hero-moon {
         right: -45px;
         width: clamp(210px, 44vw, 330px);
-        opacity: .68;
+        opacity: .62;
+      }
+      .hero-clouds {
+        right:-70px;
+        width:clamp(250px,52vw,390px);
+        height:clamp(150px,33vw,260px);
+        opacity:.7;
       }
       .hero-copy { max-width: 72%; }
     }
@@ -69,9 +127,19 @@ if (hero && !hero.querySelector('.hero-moon')) {
         right: -78px;
         top: 31%;
         width: 245px;
-        opacity: .48;
+        opacity: .44;
+      }
+      .hero-clouds {
+        right:-96px;
+        top:31%;
+        width:300px;
+        height:190px;
+        opacity:.52;
       }
       .hero-copy { max-width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-clouds .cloud { animation:none!important; }
     }
   `;
   document.head.appendChild(moonStyle);
