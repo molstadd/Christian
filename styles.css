@@ -22,3 +22,14 @@ main{position:relative;overflow:hidden;background:#07172f}.sky-stage{position:re
 .feature-quote span,.dwelling-path i,.rule-line{display:none!important}
 .checklist p{border-bottom:0!important}
 .pillar-card,.word-card,.rise-step{border:0!important}
+
+/* Disciple study page: preserve the full custom artwork and keep the sticky header readable. */
+body:has(.study-page) .site-header{background:rgba(251,250,246,.97)!important;border-bottom:1px solid rgba(23,34,27,.14)!important}
+body:has(.study-page) .site-header .brand-text strong{color:#253229!important;text-shadow:none!important}
+body:has(.study-page) .site-header .brand-text small{color:#69716b!important}
+body:has(.study-page) .site-header .brand-mark{color:#d5a34e!important}
+body:has(.study-page) .site-header .main-nav{color:#38463e!important}
+.study-page .image-break{min-height:0!important;height:auto!important;aspect-ratio:3/2!important;background-size:100% auto!important;background-repeat:no-repeat!important;background-position:center center!important}
+.study-page .image-break .study-wrap{padding-bottom:clamp(40px,5vw,74px)!important}
+.study-page .teaching-image,.study-page .walking-image,.study-page .mentoring-image{background-position:center center!important}
+@media(max-width:760px){.study-page .image-break{aspect-ratio:3/2!important;min-height:0!important;background-size:cover!important}.study-page .image-break h2{font-size:clamp(32px,9vw,52px)!important;max-width:92%!important}}
