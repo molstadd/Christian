@@ -41,7 +41,7 @@
     .hero-clouds {
       position:absolute!important;
       z-index:2!important;
-      right:clamp(-70px,1vw,40px)!important;
+      right:clamp(-145px,-4vw,-55px)!important;
       top:50%!important;
       width:clamp(500px,52vw,900px)!important;
       height:clamp(280px,32vw,520px)!important;
@@ -63,36 +63,34 @@
     }
 
     .photo-cloud-one {
-      left:-36%;
+      left:-18%;
       top:20%;
       opacity:.82;
-      animation:photoCloudDriftOne 44s linear infinite;
+      animation:photoCloudDriftOne 48s ease-in-out infinite alternate;
     }
 
     .photo-cloud-two {
-      left:-10%;
+      left:2%;
       top:46%;
       width:108%;
       opacity:.66;
-      animation:photoCloudDriftTwo 61s linear infinite;
-      animation-delay:-24s;
+      animation:photoCloudDriftTwo 64s ease-in-out infinite alternate;
+      animation-delay:-19s;
     }
 
     @keyframes photoCloudDriftOne {
-      0%   { transform:translateX(-14%) translateY(0) scale(.96); }
-      50%  { transform:translateX(10%) translateY(-2%) scale(1); }
-      100% { transform:translateX(32%) translateY(1%) scale(.97); }
+      from { transform:translateX(-7%) translateY(0) scale(.96); }
+      to   { transform:translateX(18%) translateY(-2%) scale(1); }
     }
 
     @keyframes photoCloudDriftTwo {
-      0%   { transform:translateX(28%) translateY(1%) scale(.92); }
-      50%  { transform:translateX(4%) translateY(3%) scale(.96); }
-      100% { transform:translateX(-22%) translateY(0) scale(.93); }
+      from { transform:translateX(13%) translateY(1%) scale(.92); }
+      to   { transform:translateX(-10%) translateY(3%) scale(.96); }
     }
 
     @media(max-width:900px){
       .hero-clouds{
-        right:-135px!important;
+        right:-185px!important;
         width:clamp(390px,68vw,620px)!important;
         height:360px!important;
         opacity:.84!important;
@@ -101,7 +99,7 @@
 
     @media(max-width:620px){
       .hero-clouds{
-        right:-150px!important;
+        right:-175px!important;
         top:31%!important;
         width:430px!important;
         height:260px!important;
