@@ -16,32 +16,31 @@
   const style = document.createElement('style');
   style.textContent = `
     .discipleship .discipleship-grid{position:relative;isolation:isolate;overflow:visible;}
-    .discipleship .word-card{position:relative;z-index:2;overflow:visible;transition:color .35s ease,text-shadow .35s ease;}
-    .discipleship .word-card.torch-lit strong{color:#ffd58a!important;text-shadow:0 0 9px rgba(255,181,72,.65),0 0 24px rgba(255,121,25,.28),0 2px 7px rgba(0,0,0,.9)!important;}
-    .discipleship .word-card.torch-lit span{color:#fff4dc!important;text-shadow:0 0 8px rgba(255,166,65,.25);}
+    .discipleship .word-card{position:relative;z-index:2;overflow:visible;transition:color .8s ease,text-shadow .8s ease;}
+    .discipleship .word-card.torch-lit strong{color:#ffd58a!important;text-shadow:0 0 10px rgba(255,181,72,.55),0 0 26px rgba(255,121,25,.22),0 2px 7px rgba(0,0,0,.9)!important;}
+    .discipleship .word-card.torch-lit span{color:#fff4dc!important;text-shadow:0 0 9px rgba(255,166,65,.22);}
 
     .word-torch{
       position:absolute;z-index:5;left:0;top:100%;width:clamp(115px,12vw,190px);
-      pointer-events:none;opacity:0;transform:translate(-42%,-30%) rotate(-8deg);
-      transform-origin:72% 72%;will-change:left,transform,opacity;filter:drop-shadow(0 8px 10px rgba(0,0,0,.65));
+      pointer-events:none;opacity:0;transform:translate(-42%,-30%) rotate(-7deg);
+      transform-origin:72% 72%;will-change:left,opacity;filter:drop-shadow(0 8px 10px rgba(0,0,0,.65));
     }
-    .word-torch img{display:block;width:100%;height:auto;position:relative;z-index:2;animation:torchAlive .16s ease-in-out infinite alternate;}
+    .word-torch img{display:block;width:100%;height:auto;position:relative;z-index:2;}
     .torch-aura{
-      position:absolute;z-index:1;width:145%;aspect-ratio:1;left:-19%;top:-36%;border-radius:50%;
-      background:radial-gradient(circle,rgba(255,225,142,.42) 0%,rgba(255,161,57,.28) 20%,rgba(236,91,18,.15) 42%,rgba(170,54,10,.06) 58%,transparent 72%);
-      filter:blur(12px);animation:fireGlow .34s ease-in-out infinite alternate;mix-blend-mode:screen;
+      position:absolute;z-index:1;width:150%;aspect-ratio:1;left:-22%;top:-39%;border-radius:50%;
+      background:radial-gradient(circle,rgba(255,229,151,.46) 0%,rgba(255,164,59,.30) 20%,rgba(236,91,18,.16) 42%,rgba(170,54,10,.06) 58%,transparent 73%);
+      filter:blur(13px);animation:fireGlow .62s ease-in-out infinite alternate;mix-blend-mode:screen;
     }
     .torch-embers{position:absolute;z-index:3;left:32%;top:-8%;width:38%;height:40%;}
-    .torch-embers i{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffd37a;box-shadow:0 0 6px #ff8b2c;opacity:0;animation:ember 1.4s linear infinite;}
-    .torch-embers i:nth-child(1){left:22%;animation-delay:.05s}.torch-embers i:nth-child(2){left:47%;animation-delay:.42s}.torch-embers i:nth-child(3){left:67%;animation-delay:.78s}.torch-embers i:nth-child(4){left:36%;animation-delay:1.08s}
-    .word-torch.torch-running{opacity:1;transition:opacity .45s ease;}
-    .word-torch.torch-rest{opacity:0;transition:opacity 1.1s ease;}
+    .torch-embers i{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffd37a;box-shadow:0 0 7px #ff8b2c;opacity:0;animation:ember 1.8s ease-out infinite;}
+    .torch-embers i:nth-child(1){left:22%;animation-delay:.05s}.torch-embers i:nth-child(2){left:47%;animation-delay:.55s}.torch-embers i:nth-child(3){left:67%;animation-delay:1.0s}.torch-embers i:nth-child(4){left:36%;animation-delay:1.4s}
+    .word-torch.torch-running{opacity:1;}
+    .word-torch.torch-rest{opacity:0;transition:opacity 1.4s ease;}
 
-    @keyframes torchAlive{from{transform:rotate(-.7deg) scale(.995);filter:brightness(.96)}to{transform:rotate(.7deg) scale(1.008);filter:brightness(1.08)}}
-    @keyframes fireGlow{0%{transform:scale(.92);opacity:.68;filter:blur(13px) brightness(.92)}55%{transform:scale(1.06);opacity:1;filter:blur(11px) brightness(1.15)}100%{transform:scale(.98);opacity:.82;filter:blur(14px) brightness(1.03)}}
-    @keyframes ember{0%{transform:translate(0,14px) scale(.5);opacity:0}18%{opacity:1}70%{opacity:.65}100%{transform:translate(12px,-38px) scale(.15);opacity:0}}
+    @keyframes fireGlow{0%{transform:scale(.94,.98);opacity:.72;filter:blur(14px) brightness(.95)}45%{transform:scale(1.04,1.08);opacity:1;filter:blur(12px) brightness(1.12)}70%{transform:scale(.98,1.03);opacity:.82;filter:blur(14px) brightness(1.02)}100%{transform:scale(1.07,.97);opacity:.92;filter:blur(13px) brightness(1.08)}}
+    @keyframes ember{0%{transform:translate(0,12px) scale(.45);opacity:0}15%{opacity:.9}65%{opacity:.5}100%{transform:translate(9px,-42px) scale(.1);opacity:0}}
 
-    @media(max-width:700px){.word-torch{width:105px;top:100%;}.torch-aura{filter:blur(9px)}}
+    @media(max-width:700px){.word-torch{width:105px;top:100%;}.torch-aura{filter:blur(10px)}}
     @media(prefers-reduced-motion:reduce){.word-torch{display:none!important}.discipleship .word-card:last-child strong{color:#efc77f!important}}
   `;
   document.head.appendChild(style);
@@ -58,18 +57,23 @@
   }
 
   async function play(){
+    torch.classList.remove('torch-rest');
     torch.classList.add('torch-running');
+    torch.style.transform = 'translate(-42%,-30%) rotate(-7deg)';
+
     for(let i=0;i<cards.length;i++){
       const card = cards[i];
       cards.forEach(c=>c.classList.remove('torch-lit'));
       card.classList.add('torch-lit');
       const x = centerFor(card);
-      torch.style.transition = i === 0 ? 'opacity .45s ease' : 'left 1.05s cubic-bezier(.45,.05,.3,1), opacity .35s ease';
+      torch.style.transition = i === 0
+        ? 'opacity .8s ease'
+        : 'left 2.8s cubic-bezier(.42,0,.25,1), opacity .8s ease';
       torch.style.left = `${x}px`;
-      torch.style.transform = `translate(-42%,-30%) rotate(${i % 2 ? -5 : -9}deg)`;
-      await sleep(i === 0 ? 950 : 1250);
+      await sleep(i === 0 ? 1600 : 3100);
     }
-    await sleep(500);
+
+    await sleep(1000);
     cards.forEach(c=>c.classList.remove('torch-lit'));
     torch.classList.remove('torch-running');
     torch.classList.add('torch-rest');
