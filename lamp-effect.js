@@ -19,72 +19,64 @@
     .discipleship .word-card{position:relative;z-index:2;overflow:visible;transition:color .8s ease,text-shadow .8s ease;}
     .discipleship .word-card.torch-lit strong{color:#ffd58a!important;text-shadow:0 0 10px rgba(255,181,72,.55),0 0 26px rgba(255,121,25,.22),0 2px 7px rgba(0,0,0,.9)!important;}
     .discipleship .word-card.torch-lit span{color:#fff4dc!important;text-shadow:0 0 9px rgba(255,166,65,.22);}
-
-    .word-torch{
-      position:absolute;z-index:5;left:0;top:100%;width:clamp(115px,12vw,190px);
-      pointer-events:none;opacity:0;transform:translate(-42%,-30%) rotate(-7deg);
-      transform-origin:72% 72%;will-change:left,opacity;filter:drop-shadow(0 8px 10px rgba(0,0,0,.65));
-    }
+    .word-torch{position:absolute;z-index:5;left:0;top:100%;width:clamp(115px,12vw,190px);pointer-events:none;opacity:0;transform:translate(-42%,-30%) rotate(-7deg);transform-origin:72% 72%;will-change:left,top,opacity;filter:drop-shadow(0 8px 10px rgba(0,0,0,.65));}
     .word-torch img{display:block;width:100%;height:auto;position:relative;z-index:2;}
-    .torch-aura{
-      position:absolute;z-index:1;width:150%;aspect-ratio:1;left:-22%;top:-39%;border-radius:50%;
-      background:radial-gradient(circle,rgba(255,229,151,.46) 0%,rgba(255,164,59,.30) 20%,rgba(236,91,18,.16) 42%,rgba(170,54,10,.06) 58%,transparent 73%);
-      filter:blur(13px);animation:fireGlow .62s ease-in-out infinite alternate;mix-blend-mode:screen;
-    }
+    .torch-aura{position:absolute;z-index:1;width:150%;aspect-ratio:1;left:-22%;top:-39%;border-radius:50%;background:radial-gradient(circle,rgba(255,229,151,.46) 0%,rgba(255,164,59,.30) 20%,rgba(236,91,18,.16) 42%,rgba(170,54,10,.06) 58%,transparent 73%);filter:blur(13px);animation:fireGlow .62s ease-in-out infinite alternate;mix-blend-mode:screen;}
     .torch-embers{position:absolute;z-index:3;left:32%;top:-8%;width:38%;height:40%;}
     .torch-embers i{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffd37a;box-shadow:0 0 7px #ff8b2c;opacity:0;animation:ember 1.8s ease-out infinite;}
-    .torch-embers i:nth-child(1){left:22%;animation-delay:.05s}.torch-embers i:nth-child(2){left:47%;animation-delay:.55s}.torch-embers i:nth-child(3){left:67%;animation-delay:1.0s}.torch-embers i:nth-child(4){left:36%;animation-delay:1.4s}
-    .word-torch.torch-running{opacity:1;}
-    .word-torch.torch-rest{opacity:0;transition:opacity 1.4s ease;}
-
+    .torch-embers i:nth-child(1){left:22%;animation-delay:.05s}.torch-embers i:nth-child(2){left:47%;animation-delay:.55s}.torch-embers i:nth-child(3){left:67%;animation-delay:1s}.torch-embers i:nth-child(4){left:36%;animation-delay:1.4s}
+    .word-torch.torch-running{opacity:1}.word-torch.torch-rest{opacity:0;transition:opacity 1.4s ease}
     @keyframes fireGlow{0%{transform:scale(.94,.98);opacity:.72;filter:blur(14px) brightness(.95)}45%{transform:scale(1.04,1.08);opacity:1;filter:blur(12px) brightness(1.12)}70%{transform:scale(.98,1.03);opacity:.82;filter:blur(14px) brightness(1.02)}100%{transform:scale(1.07,.97);opacity:.92;filter:blur(13px) brightness(1.08)}}
     @keyframes ember{0%{transform:translate(0,12px) scale(.45);opacity:0}15%{opacity:.9}65%{opacity:.5}100%{transform:translate(9px,-42px) scale(.1);opacity:0}}
-
-    @media(max-width:700px){.word-torch{width:105px;top:100%;}.torch-aura{filter:blur(10px)}}
+    @media(max-width:700px){.word-torch{width:105px;top:100%}.torch-aura{filter:blur(10px)}}
     @media(prefers-reduced-motion:reduce){.word-torch{display:none!important}.discipleship .word-card:last-child strong{color:#efc77f!important}}
   `;
   document.head.appendChild(style);
-
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   let started = false;
   const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-  function centerFor(card){
-    const g = grid.getBoundingClientRect();
-    const r = card.getBoundingClientRect();
-    return r.left - g.left + r.width * .5;
-  }
+  const centerFor = card => { const g=grid.getBoundingClientRect(),r=card.getBoundingClientRect(); return r.left-g.left+r.width*.5; };
 
   async function play(){
     torch.classList.remove('torch-rest');
     torch.classList.add('torch-running');
-    torch.style.transform = 'translate(-42%,-30%) rotate(-7deg)';
+    torch.style.top='100%';
+    torch.style.transform='translate(-42%,-30%) rotate(-7deg)';
 
     for(let i=0;i<cards.length;i++){
-      const card = cards[i];
       cards.forEach(c=>c.classList.remove('torch-lit'));
-      card.classList.add('torch-lit');
-      const x = centerFor(card);
-      torch.style.transition = i === 0
-        ? 'opacity .8s ease'
-        : 'left 2.8s cubic-bezier(.42,0,.25,1), opacity .8s ease';
-      torch.style.left = `${x}px`;
-      await sleep(i === 0 ? 1600 : 3100);
+      cards[i].classList.add('torch-lit');
+      torch.style.transition=i===0?'opacity .8s ease':'left 2.8s cubic-bezier(.42,0,.25,1), opacity .8s ease';
+      torch.style.left=`${centerFor(cards[i])}px`;
+      await sleep(i===0?1600:3100);
     }
 
-    await sleep(1000);
+    await sleep(900);
     cards.forEach(c=>c.classList.remove('torch-lit'));
+
+    // Drop below the words first, then make a visible journey back to the beginning.
+    torch.style.transition='top 1.5s cubic-bezier(.4,0,.2,1), transform 1.5s ease';
+    torch.style.top='calc(100% + 85px)';
+    torch.style.transform='translate(-42%,-30%) rotate(-10deg)';
+    await sleep(1650);
+
+    torch.style.transition='left 5.2s cubic-bezier(.45,.05,.25,1), transform 5.2s ease';
+    torch.style.left=`${centerFor(cards[0])}px`;
+    torch.style.transform='translate(-42%,-30%) rotate(-7deg)';
+    await sleep(5400);
+
+    // Rise back into the starting position, ready for another pass.
+    torch.style.transition='top 1.6s cubic-bezier(.4,0,.2,1)';
+    torch.style.top='100%';
+    await sleep(1750);
+
     torch.classList.remove('torch-running');
     torch.classList.add('torch-rest');
   }
 
-  const observer = new IntersectionObserver(entries=>{
-    if(entries.some(e=>e.isIntersecting) && !started){
-      started=true;
-      play();
-      observer.disconnect();
-    }
+  const observer=new IntersectionObserver(entries=>{
+    if(entries.some(e=>e.isIntersecting)&&!started){started=true;play();observer.disconnect();}
   },{threshold:.35});
   observer.observe(grid);
 })();
