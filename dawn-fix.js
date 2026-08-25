@@ -52,17 +52,14 @@
   if (!track) return;
   const steps = [...track.querySelectorAll('.story-step')];
   if (steps.length !== 8) return;
-
   track.querySelectorAll('.story-arrow').forEach(a => a.style.display = 'none');
   track.querySelector('.story-vine')?.remove();
   track.querySelector('.story-vine-photo')?.remove();
-
   const placement = [[1,1],[2,1],[3,1],[4,1],[4,2],[3,2],[2,2],[1,2]];
   steps.forEach((step,i) => {
     step.style.setProperty('grid-column',String(placement[i][0]),'important');
     step.style.setProperty('grid-row',String(placement[i][1]),'important');
   });
-
   const vineWrap = document.createElement('div');
   vineWrap.className = 'story-vine-photo';
   vineWrap.setAttribute('aria-hidden','true');
@@ -71,7 +68,6 @@
     <div class="vine-segment vine-turn"></div>
     <div class="vine-segment vine-bottom"></div>`;
   track.prepend(vineWrap);
-
   const style = document.createElement('style');
   style.textContent = `
     #big-story .story-track{position:relative!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(150px,auto))!important;column-gap:28px!important;row-gap:72px!important;overflow:visible!important;padding:14px 0 34px!important;isolation:isolate}
@@ -96,19 +92,31 @@
   if (!pillars) return;
   const style = document.createElement('style');
   style.textContent = `
-    .sky-2 .pillars .section-heading h2,
-    .sky-2 .pillars .pillar-card h3{color:#fffef9!important;}
-    .sky-2 .pillars .pillar-card h4{
-      color:#efc77f!important;
-      font-family:var(--sans)!important;
-      font-size:13px!important;
-      line-height:1.4!important;
-      letter-spacing:.08em!important;
-      text-transform:uppercase!important;
-      font-weight:700!important;
-      min-height:38px;
-      margin:0 0 16px!important;
+    .sky-2 .pillars .section-heading h2{color:#fffef9!important;}
+    .sky-2 .pillars .card-grid.three{align-items:stretch!important;}
+    .sky-2 .pillars .pillar-card{
+      display:grid!important;
+      grid-template-rows:auto minmax(44px,auto) 1fr auto!important;
+      align-content:start!important;
+      min-height:100%!important;
     }
+    .sky-2 .pillars .pillar-card h3{
+      color:#efc77f!important;
+      margin:10px 0 8px!important;
+    }
+    .sky-2 .pillars .pillar-card h4{
+      color:#fffef9!important;
+      font-family:var(--serif)!important;
+      font-size:21px!important;
+      line-height:1.25!important;
+      letter-spacing:normal!important;
+      text-transform:none!important;
+      font-weight:600!important;
+      min-height:44px!important;
+      margin:0 0 14px!important;
+    }
+    .sky-2 .pillars .pillar-card > p{margin-top:0!important;}
+    .sky-2 .pillars .pillar-card > a{align-self:end!important;margin-top:18px!important;}
   `;
   document.head.appendChild(style);
 })();
