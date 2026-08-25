@@ -29,85 +29,89 @@
   const clouds = document.querySelector('.hero .hero-clouds');
   if (!clouds) return;
 
-  const cloudSvg = (id, seed, variant = 1) => {
-    const path = variant === 1
-      ? 'M-70 250 C20 205 70 218 135 185 C190 155 240 186 300 151 C355 119 420 156 486 137 C545 119 585 151 650 129 C720 105 770 149 835 140 C900 129 935 161 995 151 C1060 139 1115 175 1270 145 L1270 335 L-70 335 Z'
-      : 'M-70 238 C10 220 75 246 143 211 C210 176 268 216 330 190 C392 164 448 204 515 176 C580 148 642 196 711 171 C774 148 827 190 892 174 C955 158 1014 199 1083 181 C1140 167 1202 202 1270 185 L1270 330 L-70 330 Z';
-
-    return `
-      <svg class="real-cloud-svg" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <filter id="${id}" x="-25%" y="-50%" width="150%" height="210%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.012 0.035" numOctaves="3" seed="${seed}" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="38" xChannelSelector="R" yChannelSelector="B" result="distorted"/>
-            <feGaussianBlur in="distorted" stdDeviation="3.5"/>
-          </filter>
-          <linearGradient id="shade-${id}" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#aeb7c1" stop-opacity="0.12"/>
-            <stop offset="28%" stop-color="#788491" stop-opacity="0.32"/>
-            <stop offset="63%" stop-color="#46515f" stop-opacity="0.68"/>
-            <stop offset="100%" stop-color="#202936" stop-opacity="0.90"/>
-          </linearGradient>
-          <linearGradient id="edge-${id}" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#d5dbe1" stop-opacity="0.14"/>
-            <stop offset="100%" stop-color="#9ba6b2" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <path d="${path}" fill="url(#shade-${id})" filter="url(#${id})"/>
-        <path d="${path}" fill="none" stroke="url(#edge-${id})" stroke-width="7" opacity=".45" filter="url(#${id})"/>
-      </svg>`;
-  };
-
   clouds.innerHTML = `
-    <div class="real-cloud real-cloud-one">${cloudSvg('cloudNoiseA', 11, 1)}</div>
-    <div class="real-cloud real-cloud-two">${cloudSvg('cloudNoiseB', 29, 2)}</div>`;
+    <img class="photo-cloud photo-cloud-one" src="assets/clouds-transparent(1).png" alt="" aria-hidden="true">
+    <img class="photo-cloud photo-cloud-two" src="assets/clouds-transparent(2).png" alt="" aria-hidden="true">`;
 
   const style = document.createElement('style');
   style.textContent = `
-    .hero-clouds .cloud{display:none!important}
-    .hero-clouds{
+    .hero-clouds .cloud,
+    .hero-clouds .real-cloud { display:none!important; }
+
+    .hero-clouds {
+      position:absolute!important;
       z-index:2!important;
+      right:clamp(-70px,1vw,40px)!important;
+      top:50%!important;
+      width:clamp(500px,52vw,900px)!important;
+      height:clamp(280px,32vw,520px)!important;
+      transform:translateY(-50%)!important;
       overflow:visible!important;
-      width:clamp(430px,46vw,820px)!important;
-      height:clamp(245px,29vw,455px)!important;
-      right:clamp(-30px,2vw,65px)!important;
+      pointer-events:none!important;
     }
-    .real-cloud{
+
+    .photo-cloud {
       position:absolute;
-      left:-24%;
-      width:150%;
+      display:block;
+      width:118%;
+      height:auto;
+      max-width:none!important;
       pointer-events:none;
+      user-select:none;
       will-change:transform;
+      filter:brightness(.76) saturate(.72) contrast(.98);
     }
-    .real-cloud-svg{display:block;width:100%;height:auto;overflow:visible}
-    .real-cloud-one{
-      top:17%;
-      opacity:.88;
-      animation:realCloudDriftA 38s linear infinite;
+
+    .photo-cloud-one {
+      left:-36%;
+      top:20%;
+      opacity:.82;
+      animation:photoCloudDriftOne 44s linear infinite;
     }
-    .real-cloud-two{
-      top:48%;
-      opacity:.72;
-      animation:realCloudDriftB 52s linear infinite;
-      animation-delay:-19s;
+
+    .photo-cloud-two {
+      left:-10%;
+      top:46%;
+      width:108%;
+      opacity:.66;
+      animation:photoCloudDriftTwo 61s linear infinite;
+      animation-delay:-24s;
     }
-    @keyframes realCloudDriftA{
-      0%{transform:translateX(-17%) translateY(0) scaleY(.72)}
-      50%{transform:translateX(2%) translateY(-2%) scaleY(.76)}
-      100%{transform:translateX(21%) translateY(1%) scaleY(.72)}
+
+    @keyframes photoCloudDriftOne {
+      0%   { transform:translateX(-14%) translateY(0) scale(.96); }
+      50%  { transform:translateX(10%) translateY(-2%) scale(1); }
+      100% { transform:translateX(32%) translateY(1%) scale(.97); }
     }
-    @keyframes realCloudDriftB{
-      0%{transform:translateX(20%) translateY(1%) scale(.92,.63)}
-      50%{transform:translateX(0) translateY(3%) scale(.95,.67)}
-      100%{transform:translateX(-21%) translateY(0) scale(.92,.63)}
+
+    @keyframes photoCloudDriftTwo {
+      0%   { transform:translateX(28%) translateY(1%) scale(.92); }
+      50%  { transform:translateX(4%) translateY(3%) scale(.96); }
+      100% { transform:translateX(-22%) translateY(0) scale(.93); }
     }
+
     @media(max-width:900px){
-      .hero-clouds{right:-100px!important;width:clamp(350px,64vw,540px)!important;height:315px!important;opacity:.84!important}
+      .hero-clouds{
+        right:-135px!important;
+        width:clamp(390px,68vw,620px)!important;
+        height:360px!important;
+        opacity:.84!important;
+      }
     }
+
     @media(max-width:620px){
-      .hero-clouds{right:-125px!important;top:31%!important;width:390px!important;height:235px!important;opacity:.60!important}
+      .hero-clouds{
+        right:-150px!important;
+        top:31%!important;
+        width:430px!important;
+        height:260px!important;
+        opacity:.62!important;
+      }
     }
-    @media(prefers-reduced-motion:reduce){.real-cloud{animation:none!important}}
+
+    @media(prefers-reduced-motion:reduce){
+      .photo-cloud{animation:none!important;}
+    }
   `;
   document.head.appendChild(style);
 })();
