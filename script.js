@@ -26,18 +26,22 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
 
-// Transparent moon on the open right side of the hero.
+// Full moon on the open right side of the hero.
 const hero = document.querySelector('.hero');
 if (hero && !hero.querySelector('.hero-moon')) {
   const moon = document.createElement('img');
   moon.className = 'hero-moon';
-  moon.src = 'assets/moon-transparent.png';
+  moon.src = 'assets/full-moon.png';
   moon.alt = '';
   moon.setAttribute('aria-hidden', 'true');
   hero.appendChild(moon);
 
   const moonStyle = document.createElement('style');
   moonStyle.textContent = `
+    .sky-1::before {
+      content: none !important;
+      display: none !important;
+    }
     .hero-moon {
       position: absolute;
       z-index: 1;
