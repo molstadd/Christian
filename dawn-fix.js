@@ -153,3 +153,50 @@
   `;
   document.head.appendChild(style);
 })();
+
+(() => {
+  const restoration = document.querySelector('.sky-4 .restoration .narrow');
+  if (!restoration) return;
+  const quote = restoration.querySelector('blockquote');
+  const destination = restoration.querySelector('h3');
+  if (!quote || !destination) return;
+
+  let shade = restoration.querySelector('.restoration-shade');
+  if (!shade) {
+    shade = document.createElement('div');
+    shade.className = 'restoration-shade';
+    restoration.insertBefore(shade, quote);
+    shade.appendChild(quote);
+    shade.appendChild(destination);
+  }
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .sky-4 .restoration .narrow{
+      background:transparent!important;
+      border:0!important;
+      border-radius:0!important;
+      padding:0!important;
+      box-shadow:none!important;
+      backdrop-filter:none!important;
+      -webkit-backdrop-filter:none!important;
+    }
+    .sky-4 .restoration .restoration-shade{
+      width:min(760px,100%);
+      margin:34px auto 24px;
+      padding:20px 30px 18px;
+      background:rgba(5,12,24,.30);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:20px;
+      box-shadow:0 16px 42px rgba(0,0,0,.13);
+      backdrop-filter:blur(2px);
+      -webkit-backdrop-filter:blur(2px);
+    }
+    .sky-4 .restoration .restoration-shade blockquote{margin:0 auto 16px!important;}
+    .sky-4 .restoration .restoration-shade h3{margin:0!important;}
+    @media(max-width:620px){
+      .sky-4 .restoration .restoration-shade{padding:18px 16px 16px;border-radius:17px;margin-top:26px;}
+    }
+  `;
+  document.head.appendChild(style);
+})();
