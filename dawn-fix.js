@@ -3,6 +3,9 @@
   if (!sky4) return;
   const oldDimmer = sky4.querySelector('.dawn-dimmer');
   if (oldDimmer) oldDimmer.remove();
+  const style = document.createElement('style');
+  style.textContent = `.sky-4::before{background-image:url("assets/Sunrise_Subtle.png")!important;}`;
+  document.head.appendChild(style);
   const update = () => {
     const rect = sky4.getBoundingClientRect();
     const vh = window.innerHeight || document.documentElement.clientHeight;
@@ -99,23 +102,16 @@
 
   const draw = now => {
     const p = ((now - startTime) % cycleMs) / cycleMs;
-
-    // One continuous growth timeline: top -> right-hand bend -> bottom.
-    // The phases intentionally overlap so the visible tip never stalls.
     const topP = phase(p, .00, .39);
     const turnP = phase(p, .31, .55);
     const bottomP = phase(p, .47, holdStart);
-
     const fade = p < fadeStart ? 1 : clamp01(1 - (p - fadeStart) / (1 - fadeStart));
-
     top.style.clipPath = `inset(0 ${(100 * (1 - topP)).toFixed(2)}% 42% 0)`;
     turn.style.clipPath = `inset(0 0 ${(100 * (1 - turnP)).toFixed(2)}% 76%)`;
     bottom.style.clipPath = `inset(42% 0 0 ${(100 * (1 - bottomP)).toFixed(2)}%)`;
-
     top.style.opacity = topP > 0 ? fade : 0;
     turn.style.opacity = turnP > 0 ? fade : 0;
     bottom.style.opacity = bottomP > 0 ? fade : 0;
-
     requestAnimationFrame(draw);
   };
   requestAnimationFrame(draw);
