@@ -1,0 +1,141 @@
+/* Reading-first typography pass: calmer hierarchy, consistent body copy, restrained accents. */
+body{font-size:18px;line-height:1.72}
+
+/* Keep the hero distinctive, but make the rest of the site read like a study rather than a poster. */
+.hero h1{font-size:clamp(52px,6vw,76px)!important;line-height:1.02!important}
+.hero-lead{font-size:19px!important;line-height:1.72!important}
+
+main section:not(.hero) h2{
+  font-size:clamp(34px,3.4vw,46px)!important;
+  line-height:1.12!important;
+  letter-spacing:-.015em!important;
+  margin-bottom:20px!important;
+}
+main section:not(.hero) h3{
+  font-size:clamp(26px,2.25vw,32px)!important;
+  line-height:1.18!important;
+  letter-spacing:-.01em!important;
+}
+main section:not(.hero) h4{
+  font-size:20px!important;
+  line-height:1.35!important;
+}
+
+/* One dependable reading size throughout the teaching sections. */
+main section:not(.hero) p,
+main section:not(.hero) li,
+main section:not(.hero) .lead,
+main section:not(.hero) .lead-sm,
+main section:not(.hero) .center-note,
+main section:not(.hero) .checklist p{
+  font-size:18px!important;
+  line-height:1.72!important;
+}
+
+.section-heading{max-width:880px!important;margin-bottom:44px!important}
+.section-heading>p:last-child{font-size:18px!important;line-height:1.72!important}
+
+/* Gold becomes a navigational accent, not another competing text voice. */
+.eyebrow,
+.eyebrow.dark{
+  font-size:12px!important;
+  line-height:1.4!important;
+  letter-spacing:.16em!important;
+  color:#efc77f!important;
+  font-weight:700!important;
+}
+
+/* Pillar titles stay important, but no longer tower over the rest of the page. */
+.sky-2 .pillars .pillar-card h3{
+  font-size:30px!important;
+  line-height:1.15!important;
+  color:#fffef9!important;
+}
+.sky-2 .pillars .pillar-card h4{
+  font-size:19px!important;
+  line-height:1.4!important;
+  color:#efc77f!important;
+  font-family:var(--serif)!important;
+  font-weight:600!important;
+}
+.sky-2 .pillars .pillar-card p{font-size:18px!important;line-height:1.72!important}
+
+/* Sequence/timeline labels use the same restrained hierarchy. */
+#big-story .story-step strong{font-size:27px!important;line-height:1.15!important}
+#big-story .story-step small{font-size:14px!important;line-height:1.5!important}
+.discipleship-grid .word-card strong{font-size:27px!important;line-height:1.18!important}
+.discipleship-grid .word-card span{font-size:14px!important;line-height:1.45!important}
+.rise-step h3{font-size:28px!important}
+
+/* Scripture and key thoughts are set apart by treatment, not giant type. */
+.scripture,
+.feature-quote p,
+.temple-scripture,
+.section-final blockquote,
+.quote-band p{
+  font-family:var(--serif)!important;
+  font-size:24px!important;
+  line-height:1.45!important;
+  font-weight:600!important;
+}
+.scripture,
+.temple-scripture,
+.section-final blockquote{
+  border-left:3px solid rgba(239,199,127,.72)!important;
+  padding:18px 24px!important;
+  margin-top:34px!important;
+  margin-bottom:28px!important;
+}
+.scripture cite,
+.section-final blockquote cite{
+  display:block!important;
+  margin-top:10px!important;
+  font-family:var(--sans)!important;
+  font-size:13px!important;
+  font-style:normal!important;
+  font-weight:600!important;
+  letter-spacing:.06em!important;
+  color:#efc77f!important;
+}
+
+/* Statements should read as emphasis inside the argument rather than banners. */
+.manifesto,
+.glow-line,
+.section-final h3{
+  font-family:var(--serif)!important;
+  font-size:26px!important;
+  line-height:1.5!important;
+  font-weight:600!important;
+}
+
+/* Keep supporting UI smaller than the actual teaching text. */
+.final-list span,
+.study-card small,
+.dwelling-path small,
+.dwelling-path strong,
+.btn,
+.text-link,
+.pillar-card a{
+  font-size:14px!important;
+}
+.study-card strong{font-size:23px!important;line-height:1.25!important}
+
+/* More breathing room for longer reading blocks. */
+.temple-copy>p:not(.eyebrow),
+.love .narrow>p:not(.eyebrow),
+.about .narrow>p:not(.eyebrow),
+.cross .reveal>p:not(.eyebrow),
+.transformation .section-heading>p:last-child,
+.assurance .reveal>p:not(.eyebrow){max-width:760px}
+
+@media(max-width:620px){
+  body{font-size:17px}
+  main section:not(.hero) p,
+  main section:not(.hero) li,
+  main section:not(.hero) .lead,
+  main section:not(.hero) .lead-sm,
+  main section:not(.hero) .center-note,
+  main section:not(.hero) .checklist p{font-size:17px!important}
+  .scripture,.feature-quote p,.temple-scripture,.section-final blockquote,.quote-band p{font-size:22px!important}
+  .manifesto,.glow-line,.section-final h3{font-size:24px!important}
+}
