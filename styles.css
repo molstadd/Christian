@@ -35,6 +35,9 @@ body:has(.study-page) .site-header .main-nav{color:#38463e!important}
 @media(max-width:760px){.study-page .image-break{aspect-ratio:3/2!important;min-height:0!important;background-size:cover!important}.study-page .image-break h2{font-size:clamp(32px,9vw,52px)!important;max-width:92%!important}}
 
 /* Disciple image breaks: remove inherited section padding/aspect ratio that created the navy dead space. */
-body:has(.study-page) .study-page .image-break{padding:0!important;height:430px!important;min-height:0!important;aspect-ratio:auto!important;background-size:cover!important;background-position:center center!important;margin:0!important}
-body:has(.study-page) .study-page .image-break .study-wrap{padding-top:0!important;padding-bottom:36px!important}
-@media(max-width:760px){body:has(.study-page) .study-page .image-break{height:320px!important;aspect-ratio:auto!important;padding:0!important}body:has(.study-page) .study-page .image-break .study-wrap{padding-bottom:26px!important}}
+body:has(.study-page) .study-page .image-break{padding:0!important;height:550px!important;min-height:0!important;aspect-ratio:auto!important;background-size:cover!important;margin:0!important}
+body:has(.study-page) .study-page .image-break .study-wrap{padding-top:0!important;padding-bottom:42px!important}
+body:has(.study-page) .study-page .teaching-image{background-position:center 42%!important}
+body:has(.study-page) .study-page .walking-image{background-position:center 38%!important}
+body:has(.study-page) .study-page .mentoring-image{background-position:center 36%!important}
+@media(max-width:760px){body:has(.study-page) .study-page .image-break{height:390px!important;aspect-ratio:auto!important;padding:0!important}body:has(.study-page) .study-page .image-break .study-wrap{padding-bottom:28px!important}body:has(.study-page) .study-page .teaching-image,body:has(.study-page) .study-page .walking-image,body:has(.study-page) .study-page .mentoring-image{background-position:center center!important}}
