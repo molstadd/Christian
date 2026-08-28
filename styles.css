@@ -2,20 +2,24 @@
 
 /* Disciple study visual journey: one continuous moving night sky. */
 .study-page{
+  position:relative;
   background-color:#03070d!important;
   background-image:linear-gradient(rgba(3,7,13,.56),rgba(3,7,13,.66)),url("assets/star-field-master.png")!important;
   background-size:auto,1450px auto!important;
   background-repeat:repeat,repeat!important;
   background-position:0 0,0 0;
-  animation:discipleStarDrift 120s linear infinite!important;
+  animation:discipleStarDrift 150s linear infinite!important;
 }
 
 .study-page .study-section,
 .study-page .mark-section{
+  position:relative;
   background:transparent!important;
 }
 
 .study-page .study-hero{
+  position:relative;
+  overflow:hidden;
   background-image:
     linear-gradient(90deg,rgba(1,4,8,.90) 0%,rgba(1,4,8,.63) 48%,rgba(1,4,8,.18) 100%),
     linear-gradient(180deg,rgba(2,5,10,.05),rgba(3,7,13,.12))!important;
@@ -29,6 +33,45 @@
 @keyframes discipleStarDrift{
   from{background-position:0 0,0 0}
   to{background-position:0 0,-640px 180px}
+}
+
+/*
+  Celestial artwork hooks for the next pass.
+  These intentionally have no background-image yet. Once the moon, Milky Way,
+  and galaxy artwork is added to assets, these layers can be switched on without
+  restructuring the page or disturbing the moving star field.
+*/
+.study-page .study-hero .celestial-moon,
+.study-page .celestial-milkyway,
+.study-page .celestial-galaxy{
+  position:absolute;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  opacity:0;
+}
+.study-page .study-hero .celestial-moon{
+  right:-5vw;
+  bottom:-12%;
+  width:min(48vw,720px);
+  aspect-ratio:1;
+  background-position:center bottom;
+  background-size:contain;
+}
+.study-page .celestial-milkyway{
+  right:-8vw;
+  top:8%;
+  width:min(72vw,1100px);
+  aspect-ratio:1.6;
+  background-position:center;
+  background-size:contain;
+}
+.study-page .celestial-galaxy{
+  left:-4vw;
+  top:18%;
+  width:min(34vw,500px);
+  aspect-ratio:1.25;
+  background-position:center;
+  background-size:contain;
 }
 
 .study-page .study-section .scripture,
@@ -69,5 +112,8 @@
 .study-page .card{backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}
 
 @media(max-width:760px){
-  .study-page{background-size:auto,1050px auto!important;animation-duration:145s!important}
+  .study-page{background-size:auto,1050px auto!important;animation-duration:180s!important}
+  .study-page .study-hero .celestial-moon{right:-18vw;width:min(82vw,620px)}
+  .study-page .celestial-milkyway{right:-25vw;width:120vw}
+  .study-page .celestial-galaxy{left:-16vw;width:62vw}
 }
