@@ -6,8 +6,8 @@
   background-image:linear-gradient(rgba(3,7,13,.56),rgba(3,7,13,.66)),url("assets/star-field-master.png")!important;
   background-size:auto,1450px auto!important;
   background-repeat:repeat,repeat!important;
-  background-position:0 0,0 0!important;
-  animation:discipleStarDrift 6s linear infinite!important;
+  background-position:0 0,0 0;
+  animation:discipleStarDrift 32s linear infinite!important;
 }
 
 .study-page .study-section,
@@ -25,10 +25,10 @@
   background:linear-gradient(transparent,rgba(3,7,13,.12))!important;
 }
 
-/* Clearly perceptible drift, mostly horizontal with a slight downward slide. */
+/* The star image itself now moves. Do not mark background-position !important or it blocks the keyframes. */
 @keyframes discipleStarDrift{
   from{background-position:0 0,0 0}
-  to{background-position:0 0,-760px 120px}
+  to{background-position:0 0,-640px 180px}
 }
 
 .study-page .study-section .scripture,
@@ -69,5 +69,5 @@
 .study-page .card{backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}
 
 @media(max-width:760px){
-  .study-page{background-size:auto,1050px auto!important;animation-duration:8s!important}
+  .study-page{background-size:auto,1050px auto!important;animation-duration:40s!important}
 }
