@@ -7,16 +7,14 @@
   background-size:auto,1450px auto!important;
   background-repeat:repeat,repeat!important;
   background-position:0 0,0 0!important;
-  animation:discipleStarDrift 18s linear infinite!important;
+  animation:discipleStarDrift 9s linear infinite!important;
 }
 
-/* Let the same star field show continuously through every dark text section. */
 .study-page .study-section,
 .study-page .mark-section{
   background:transparent!important;
 }
 
-/* The hero now uses only shading. The moving stars come from .study-page beneath it. */
 .study-page .study-hero{
   background-image:
     linear-gradient(90deg,rgba(1,4,8,.90) 0%,rgba(1,4,8,.63) 48%,rgba(1,4,8,.18) 100%),
@@ -27,12 +25,12 @@
   background:linear-gradient(transparent,rgba(3,7,13,.12))!important;
 }
 
+/* Faster, mostly-horizontal motion so the eye can actually perceive the drift. */
 @keyframes discipleStarDrift{
   from{background-position:0 0,0 0}
-  to{background-position:0 0,-700px 380px}
+  to{background-position:0 0,-520px 90px}
 }
 
-/* Scripture floats directly over the stars: no visible rectangular block. */
 .study-page .study-section .scripture,
 .study-page .mark-section .scripture{
   position:relative;
@@ -42,35 +40,35 @@
   box-shadow:none!important;
 }
 
-/* Keep only a soft warm halo behind the words. */
+/* Restrained warm halo: enough to lift Scripture without becoming a visual effect. */
 .study-page .study-section .scripture::before,
 .study-page .mark-section .scripture::before{
   content:""!important;
   display:block!important;
   position:absolute;
   z-index:-1;
-  left:-8%;
-  right:-8%;
-  top:-30px;
-  bottom:-30px;
+  left:-6%;
+  right:-6%;
+  top:-24px;
+  bottom:-24px;
   pointer-events:none;
   background:radial-gradient(ellipse at center,
-    rgba(255,191,76,.22) 0%,
-    rgba(222,133,37,.09) 38%,
-    rgba(145,77,20,.035) 58%,
-    transparent 76%)!important;
+    rgba(255,191,76,.105) 0%,
+    rgba(222,133,37,.042) 40%,
+    rgba(145,77,20,.014) 60%,
+    transparent 75%)!important;
 }
 #become .scripture::before{
   background:radial-gradient(ellipse at center,
-    rgba(255,198,88,.31) 0%,
-    rgba(231,142,40,.13) 38%,
-    rgba(148,76,20,.05) 60%,
-    transparent 78%)!important;
+    rgba(255,198,88,.15) 0%,
+    rgba(231,142,40,.058) 40%,
+    rgba(148,76,20,.02) 60%,
+    transparent 77%)!important;
 }
 
 .study-page .card{backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}
 
 @media (prefers-reduced-motion:reduce){.study-page{animation:none!important}}
 @media(max-width:760px){
-  .study-page{background-size:auto,1050px auto!important;animation-duration:26s!important}
+  .study-page{background-size:auto,1050px auto!important;animation-duration:13s!important}
 }
