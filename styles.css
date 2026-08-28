@@ -7,7 +7,7 @@
   background-size:auto,1450px auto!important;
   background-repeat:repeat,repeat!important;
   background-position:0 0,0 0;
-  animation:discipleStarDrift 70s linear infinite!important;
+  animation:discipleStarDrift 120s linear infinite!important;
 }
 
 .study-page .study-section,
@@ -25,7 +25,7 @@
   background:linear-gradient(transparent,rgba(3,7,13,.12))!important;
 }
 
-/* Slow, perceptible drift. Keep background-position free of !important so keyframes can move it. */
+/* Very slow, continuous drift. Keep background-position free of !important so keyframes can move it. */
 @keyframes discipleStarDrift{
   from{background-position:0 0,0 0}
   to{background-position:0 0,-640px 180px}
@@ -69,5 +69,5 @@
 .study-page .card{backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}
 
 @media(max-width:760px){
-  .study-page{background-size:auto,1050px auto!important;animation-duration:85s!important}
+  .study-page{background-size:auto,1050px auto!important;animation-duration:145s!important}
 }
