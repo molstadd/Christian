@@ -1,67 +1,71 @@
 @import url("styles-base.css?v=1");
 
-/* Disciple study visual journey: quiet stars, illuminated Scripture, sunrise destination. */
+/* Disciple study visual journey: one continuous moving night sky. */
 .study-page{
   background-color:#03070d!important;
-  background-image:linear-gradient(rgba(3,7,13,.68),rgba(3,7,13,.78)),url("assets/star-field-master.png")!important;
-  background-size:auto,1500px auto!important;
+  background-image:linear-gradient(rgba(3,7,13,.56),rgba(3,7,13,.66)),url("assets/star-field-master.png")!important;
+  background-size:auto,1450px auto!important;
   background-repeat:repeat,repeat!important;
   background-position:0 0,0 0!important;
-  animation:discipleStarDrift 72s linear infinite;
+  animation:discipleStarDrift 42s linear infinite!important;
 }
+
+/* Let the same star field show continuously through every dark text section. */
 .study-page .study-section,
 .study-page .mark-section{
   background:transparent!important;
 }
 
-/* Keep the hero's lower fade from turning into a starless black band. */
+/* The hero now uses only shading. The moving stars come from .study-page beneath it. */
+.study-page .study-hero{
+  background-image:
+    linear-gradient(90deg,rgba(1,4,8,.90) 0%,rgba(1,4,8,.63) 48%,rgba(1,4,8,.18) 100%),
+    linear-gradient(180deg,rgba(2,5,10,.05),rgba(3,7,13,.12))!important;
+  background-color:transparent!important;
+}
 .study-page .study-hero:after{
-  background:linear-gradient(transparent,rgba(3,7,13,.28))!important;
+  background:linear-gradient(transparent,rgba(3,7,13,.12))!important;
 }
 
 @keyframes discipleStarDrift{
   from{background-position:0 0,0 0}
-  to{background-position:0 0,-360px 220px}
+  to{background-position:0 0,-520px 300px}
 }
 
-/* Scripture illumination: warm enough to read as light, still soft at the edges. */
+/* Warm Scripture illumination. Use real background + shadow so it cannot disappear behind the section. */
 .study-page .study-section .scripture,
 .study-page .mark-section .scripture{
   position:relative;
-  isolation:isolate;
-}
-.study-page .study-section .scripture::before,
-.study-page .mark-section .scripture::before{
-  content:"";
-  position:absolute;
-  z-index:-1;
-  left:-12%;
-  right:-12%;
-  top:-42px;
-  bottom:-42px;
-  pointer-events:none;
+  z-index:1;
   background:radial-gradient(ellipse at center,
-    rgba(239,189,98,.25) 0%,
-    rgba(221,145,54,.12) 32%,
-    rgba(164,92,30,.05) 54%,
-    transparent 76%);
-  opacity:.88;
-}
-#become .scripture::before{
-  background:radial-gradient(ellipse at center,
-    rgba(255,195,91,.34) 0%,
-    rgba(226,143,43,.17) 34%,
-    rgba(156,80,22,.07) 56%,
-    transparent 78%);
-  opacity:1;
+    rgba(239,189,98,.20) 0%,
+    rgba(218,137,43,.10) 42%,
+    rgba(120,65,18,.035) 66%,
+    transparent 82%)!important;
+  box-shadow:
+    0 0 45px 8px rgba(239,189,98,.10),
+    0 0 100px 18px rgba(211,126,37,.055);
 }
 
-/* Keep cards readable while allowing a hint of the night behind them. */
+/* The invitation section gets the warmest light on the page. */
+#become .scripture{
+  background:radial-gradient(ellipse at center,
+    rgba(255,196,91,.31) 0%,
+    rgba(231,145,45,.15) 40%,
+    rgba(143,76,22,.055) 65%,
+    transparent 82%)!important;
+  box-shadow:
+    0 0 55px 12px rgba(255,190,78,.16),
+    0 0 125px 24px rgba(220,130,36,.075);
+}
+
+/* Disable the older pseudo glow so only the visible illumination above is used. */
+.study-page .study-section .scripture::before,
+.study-page .mark-section .scripture::before{display:none!important}
+
 .study-page .card{backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}
 
-@media (prefers-reduced-motion:reduce){.study-page{animation:none}}
+@media (prefers-reduced-motion:reduce){.study-page{animation:none!important}}
 @media(max-width:760px){
-  .study-page{background-size:auto,1100px auto!important;animation-duration:92s}
-  .study-page .study-section .scripture::before,
-  .study-page .mark-section .scripture::before{left:-5%;right:-5%}
+  .study-page{background-size:auto,1050px auto!important;animation-duration:58s!important}
 }
