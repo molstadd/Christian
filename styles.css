@@ -7,7 +7,7 @@
   background-size:auto,1450px auto!important;
   background-repeat:repeat,repeat!important;
   background-position:0 0,0 0!important;
-  animation:discipleStarDrift 9s linear infinite!important;
+  animation:discipleStarDrift 6s linear infinite!important;
 }
 
 .study-page .study-section,
@@ -25,10 +25,10 @@
   background:linear-gradient(transparent,rgba(3,7,13,.12))!important;
 }
 
-/* Faster, mostly-horizontal motion so the eye can actually perceive the drift. */
+/* Clearly perceptible drift, mostly horizontal with a slight downward slide. */
 @keyframes discipleStarDrift{
   from{background-position:0 0,0 0}
-  to{background-position:0 0,-520px 90px}
+  to{background-position:0 0,-760px 120px}
 }
 
 .study-page .study-section .scripture,
@@ -68,7 +68,6 @@
 
 .study-page .card{backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}
 
-@media (prefers-reduced-motion:reduce){.study-page{animation:none!important}}
 @media(max-width:760px){
-  .study-page{background-size:auto,1050px auto!important;animation-duration:13s!important}
+  .study-page{background-size:auto,1050px auto!important;animation-duration:8s!important}
 }
