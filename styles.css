@@ -3,22 +3,28 @@
 /* Disciple study visual journey: quiet stars, illuminated Scripture, sunrise destination. */
 .study-page{
   background-color:#03070d!important;
-  background-image:linear-gradient(rgba(3,7,13,.74),rgba(3,7,13,.82)),url("assets/star-field-master.png")!important;
+  background-image:linear-gradient(rgba(3,7,13,.68),rgba(3,7,13,.78)),url("assets/star-field-master.png")!important;
   background-size:auto,1500px auto!important;
   background-repeat:repeat,repeat!important;
   background-position:0 0,0 0!important;
-  animation:discipleStarDrift 150s linear infinite;
+  animation:discipleStarDrift 72s linear infinite;
 }
 .study-page .study-section,
 .study-page .mark-section{
   background:transparent!important;
 }
-@keyframes discipleStarDrift{
-  from{background-position:0 0,0 0}
-  to{background-position:0 0,-180px 120px}
+
+/* Keep the hero's lower fade from turning into a starless black band. */
+.study-page .study-hero:after{
+  background:linear-gradient(transparent,rgba(3,7,13,.28))!important;
 }
 
-/* Scripture should feel gently illuminated, never spotlighted. */
+@keyframes discipleStarDrift{
+  from{background-position:0 0,0 0}
+  to{background-position:0 0,-360px 220px}
+}
+
+/* Scripture illumination: warm enough to read as light, still soft at the edges. */
 .study-page .study-section .scripture,
 .study-page .mark-section .scripture{
   position:relative;
@@ -29,17 +35,25 @@
   content:"";
   position:absolute;
   z-index:-1;
-  left:-8%;
-  right:-8%;
-  top:-32px;
-  bottom:-32px;
+  left:-12%;
+  right:-12%;
+  top:-42px;
+  bottom:-42px;
   pointer-events:none;
-  background:radial-gradient(ellipse at center,rgba(239,189,98,.075) 0%,rgba(239,189,98,.025) 42%,transparent 72%);
-  opacity:.7;
+  background:radial-gradient(ellipse at center,
+    rgba(239,189,98,.25) 0%,
+    rgba(221,145,54,.12) 32%,
+    rgba(164,92,30,.05) 54%,
+    transparent 76%);
+  opacity:.88;
 }
 #become .scripture::before{
-  background:radial-gradient(ellipse at center,rgba(239,189,98,.13) 0%,rgba(239,189,98,.04) 44%,transparent 74%);
-  opacity:.9;
+  background:radial-gradient(ellipse at center,
+    rgba(255,195,91,.34) 0%,
+    rgba(226,143,43,.17) 34%,
+    rgba(156,80,22,.07) 56%,
+    transparent 78%);
+  opacity:1;
 }
 
 /* Keep cards readable while allowing a hint of the night behind them. */
@@ -47,6 +61,7 @@
 
 @media (prefers-reduced-motion:reduce){.study-page{animation:none}}
 @media(max-width:760px){
-  .study-page{background-size:auto,1100px auto!important;animation-duration:190s}
-  .study-page .study-section .scripture::before,.study-page .mark-section .scripture::before{left:-3%;right:-3%}
+  .study-page{background-size:auto,1100px auto!important;animation-duration:92s}
+  .study-page .study-section .scripture::before,
+  .study-page .mark-section .scripture::before{left:-5%;right:-5%}
 }
